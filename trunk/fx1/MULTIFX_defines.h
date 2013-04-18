@@ -2,6 +2,8 @@
 #define _MULTIFX_DEFINES_H
 
 
+#define USE_DOUBLE
+
 #define MULTIFX_DEFAULT_RET (0)
 #define STRAIGHT_RETURN(x) if (x < 0) return x;
 
