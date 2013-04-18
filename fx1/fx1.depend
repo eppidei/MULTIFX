@@ -1,0 +1,57 @@
+# depslib dependency file v1.0
+1365968177 source:/home/leonardo/Documents/FX_Interface/Fuzone_MultiFX/fx1/MULTIFX_oss_conf.c
+	<MULTIFX_oss_conf.h>
+
+1366231416 /home/leonardo/Documents/FX_Interface/Fuzone_MultiFX/fx1/MULTIFX_errors.h
+
+1347160001 /home/leonardo/Programmi/OSS/oss-v4.2-build2007-src-gpl/include/soundcard.h
+	<sys/ioctl.h>
+	<linux/ioctl.h>
+	<sys/ioccom.h>
+	<sys/ioctl.h>
+
+1366231730 /home/leonardo/Documents/FX_Interface/Fuzone_MultiFX/fx1/MULTIFX_oss_conf.h
+	<fcntl.h>
+	<MULTIFX_typedef.h>
+	<stdio.h>
+	<errno.h>
+	<MULTIFX_errors.h>
+	<soundcard.h>
+	<MULTIFX_defines.h>
+	<sys/ioctl.h>
+
+1366233922 /home/leonardo/Documents/FX_Interface/Fuzone_MultiFX/fx1/MULTIFX_typedef.h
+	<stdint.h>
+
+1366233288 source:/home/leonardo/Documents/FX_Interface/Fuzone_MultiFX/fx1/main.c
+	<MULTIFX_defines.h>
+	<MULTIFX_typedef.h>
+	<soundcard.h>
+	<MULTIFX_oss_std_cfg.h>
+	<MULTIFX_oss_utils.h>
+	<unistd.h>
+
+1365968377 source:/home/leonardo/Documents/FX_Interface/Fuzone_MultiFX/fx1/MULTIFX_oss_std_cfg.c
+	<MULTIFX_oss_std_cfg.h>
+
+1365968377 /home/leonardo/Documents/FX_Interface/Fuzone_MultiFX/fx1/MULTIFX_oss_std_cfg.h
+	<MULTIFX_typedef.h>
+	<MULTIFX_errors.h>
+	<MULTIFX_defines.h>
+	<soundcard.h>
+	<MULTIFX_oss_conf.h>
+
+1365969947 /home/leonardo/Documents/FX_Interface/Fuzone_MultiFX/fx1/MULTIFX_defines.h
+
+1366232574 source:/home/leonardo/Documents/FX_Interface/Fuzone_MultiFX/fx1/MULTIFX_oss_utils.c
+	<MULTIFX_oss_utils.h>
+
+1366232574 /home/leonardo/Documents/FX_Interface/Fuzone_MultiFX/fx1/MULTIFX_oss_utils.h
+	<MULTIFX_defines.h>
+	<MULTIFX_typedef.h>
+	<string.h>
+	<MULTIFX_errors.h>
+	<fcntl.h>
+	<unistd.h>
+	<stdio.h>
+
