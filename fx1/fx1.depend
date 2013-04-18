@@ -55,3 +55,46 @@
 	<unistd.h>
 	<stdio.h>
 
+1366319183 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_conf.c
+	<MULTIFX_oss_conf.h>
+
+1366319183 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_conf.h
+	<fcntl.h>
+	<MULTIFX_typedef.h>
+	<stdio.h>
+	<errno.h>
+	<MULTIFX_errors.h>
+	<soundcard.h>
+	<MULTIFX_defines.h>
+	<sys/ioctl.h>
+
+1366321043 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_typedef.h
+	<stdint.h>
+	<MULTIFX_defines.h>
+
+1366323259 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_defines.h
+
+1366319183 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_errors.h
+
+1366319183 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_std_cfg.c
+	<MULTIFX_oss_std_cfg.h>
+
+1366319183 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_std_cfg.h
+	<MULTIFX_typedef.h>
+	<MULTIFX_errors.h>
+	<MULTIFX_defines.h>
+	<soundcard.h>
+	<MULTIFX_oss_conf.h>
+
+1366319183 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_utils.c
+	<MULTIFX_oss_utils.h>
+
+1366319183 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_utils.h
+	<MULTIFX_defines.h>
+	<MULTIFX_typedef.h>
+	<string.h>
+	<MULTIFX_errors.h>
+	<fcntl.h>
+	<unistd.h>
+	<stdio.h>
+
