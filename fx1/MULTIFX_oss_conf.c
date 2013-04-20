@@ -1,4 +1,10 @@
 #include <MULTIFX_oss_conf.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <errno.h>
+#include <MULTIFX_errors.h>
+#include <sys/ioctl.h>
+#include <MULTIFX_defines.h>
 
 
 MULTIFX_API_RET open_device_RW (MULTIFX_CHAR_T *devname)

@@ -55,46 +55,76 @@
 	<unistd.h>
 	<stdio.h>
 
-1366319183 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_conf.c
+1366414669 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_conf.c
 	<MULTIFX_oss_conf.h>
-
-1366319183 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_conf.h
 	<fcntl.h>
-	<MULTIFX_typedef.h>
 	<stdio.h>
 	<errno.h>
 	<MULTIFX_errors.h>
-	<soundcard.h>
-	<MULTIFX_defines.h>
 	<sys/ioctl.h>
+	<MULTIFX_defines.h>
+
+1366414669 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_conf.h
+	<MULTIFX_typedef.h>
+	<soundcard.h>
 
 1366321043 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_typedef.h
 	<stdint.h>
 	<MULTIFX_defines.h>
 
-1366323259 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_defines.h
+1366415071 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_defines.h
 
 1366319183 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_errors.h
 
-1366319183 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_std_cfg.c
+1366414760 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_std_cfg.c
 	<MULTIFX_oss_std_cfg.h>
-
-1366319183 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_std_cfg.h
-	<MULTIFX_typedef.h>
 	<MULTIFX_errors.h>
 	<MULTIFX_defines.h>
-	<soundcard.h>
 	<MULTIFX_oss_conf.h>
 
-1366319183 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_utils.c
-	<MULTIFX_oss_utils.h>
-
-1366319183 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_utils.h
-	<MULTIFX_defines.h>
+1366414760 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_std_cfg.h
 	<MULTIFX_typedef.h>
-	<string.h>
-	<MULTIFX_errors.h>
+	<soundcard.h>
+
+1366414522 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_utils.c
+	<MULTIFX_oss_utils.h>
 	<fcntl.h>
 	<unistd.h>
 	<stdio.h>
+	<math.h>
+	<string.h>
+	<MULTIFX_errors.h>
+	<MULTIFX_defines.h>
+
+1366414535 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_utils.h
+	<MULTIFX_typedef.h>
+
+1366416353 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/main.c
+	<MULTIFX_oss_std_cfg.h>
+	<MULTIFX_oss_utils.h>
+	<unistd.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1366415092 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/FX_library_utils.c
+	<FX_library_utils.h>
+	<math.h>
+
+1366414425 /home/leonardo/MULTIFX_wcpy/trunk/fx1/FX_library_utils.h
+	<MULTIFX_typedef.h>
+
+1366416278 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/FX_class.c
+	<FX_class.h>
+	<stdlib.h>
+
+1366416292 /home/leonardo/MULTIFX_wcpy/trunk/fx1/FX_class.h
+	<MULTIFX_typedef.h>
+
+1366416449 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_class.c
+	<MULTIFX_FX_class.h>
+	<stdlib.h>
+
+1366416292 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_class.h
+	<MULTIFX_typedef.h>
 

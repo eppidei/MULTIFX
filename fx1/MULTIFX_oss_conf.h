@@ -1,14 +1,13 @@
 #ifndef _MULTIFX_OSS_CONF_H
 #define _MULTIFX_OSS_CONF_H
 
-#include <fcntl.h>
+
 #include <MULTIFX_typedef.h>
-#include <stdio.h>
-#include <errno.h>
-#include <MULTIFX_errors.h>
+
+
 #include <soundcard.h>
-#include <MULTIFX_defines.h>
-#include <sys/ioctl.h>
+
+
 
 MULTIFX_API_RET open_device_RW (MULTIFX_CHAR_T * devname);
 MULTIFX_API_RET get_dev_infos (oss_audioinfo *infos, MULTIFX_INT32_T *fd);

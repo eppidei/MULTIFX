@@ -6,6 +6,7 @@
 
 #define MULTIFX_DEFAULT_RET (0)
 #define STRAIGHT_RETURN(x) if (x < 0) return x;
+#define PI_G (3.141592653589793115997963468544185161590576171875L)
 
 
 #define VERBOSE (1)
@@ -14,6 +15,8 @@
 #define MAX_FRAG_SIZE (2048)
 #define MAX_BUFF_DIM (32*1024)
 #define SAMPLING_RATE (48000)
+
+#undef DEBUG
 
 #endif
 
