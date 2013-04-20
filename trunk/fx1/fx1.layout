@@ -1,34 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="MULTIFX_defines.h" open="1" top="0" tabpos="2">
-		<Cursor position="74" topLine="0" />
+	<File name="MULTIFX_FX_class.c" open="1" top="1" tabpos="1">
+		<Cursor position="41" topLine="0" />
+	</File>
+	<File name="MULTIFX_FX_class.h" open="0" top="0" tabpos="0">
+		<Cursor position="69" topLine="0" />
+	</File>
+	<File name="MULTIFX_FX_library_utils.c" open="0" top="0" tabpos="0">
+		<Cursor position="521" topLine="0" />
+	</File>
+	<File name="MULTIFX_FX_library_utils.h" open="0" top="0" tabpos="0">
+		<Cursor position="86" topLine="0" />
+	</File>
+	<File name="MULTIFX_defines.h" open="0" top="0" tabpos="2">
+		<Cursor position="155" topLine="0" />
 	</File>
 	<File name="MULTIFX_errors.h" open="0" top="0" tabpos="8">
 		<Cursor position="1165" topLine="0" />
 	</File>
 	<File name="MULTIFX_oss_conf.c" open="0" top="0" tabpos="1">
-		<Cursor position="468" topLine="0" />
+		<Cursor position="166" topLine="0" />
 	</File>
 	<File name="MULTIFX_oss_conf.h" open="0" top="0" tabpos="3">
-		<Cursor position="245" topLine="0" />
+		<Cursor position="112" topLine="0" />
 	</File>
 	<File name="MULTIFX_oss_std_cfg.c" open="0" top="0" tabpos="4">
-		<Cursor position="1483" topLine="25" />
+		<Cursor position="119" topLine="0" />
 	</File>
 	<File name="MULTIFX_oss_std_cfg.h" open="0" top="0" tabpos="5">
-		<Cursor position="909" topLine="0" />
+		<Cursor position="116" topLine="0" />
 	</File>
 	<File name="MULTIFX_oss_utils.c" open="0" top="0" tabpos="13">
-		<Cursor position="2879" topLine="72" />
+		<Cursor position="183" topLine="0" />
 	</File>
 	<File name="MULTIFX_oss_utils.h" open="0" top="0" tabpos="14">
-		<Cursor position="333" topLine="0" />
+		<Cursor position="60" topLine="0" />
 	</File>
-	<File name="MULTIFX_typedef.h" open="1" top="0" tabpos="3">
+	<File name="MULTIFX_typedef.h" open="0" top="0" tabpos="3">
 		<Cursor position="509" topLine="0" />
 	</File>
-	<File name="main.c" open="1" top="1" tabpos="1">
-		<Cursor position="1795" topLine="45" />
+	<File name="main.c" open="0" top="0" tabpos="1">
+		<Cursor position="1424" topLine="88" />
 	</File>
 </CodeBlocks_layout_file>
