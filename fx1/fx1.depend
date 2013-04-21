@@ -72,9 +72,9 @@
 	<stdint.h>
 	<MULTIFX_defines.h>
 
-1366477675 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_defines.h
+1366571920 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_defines.h
 
-1366319183 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_errors.h
+1366568597 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_errors.h
 
 1366414760 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_std_cfg.c
 	<MULTIFX_oss_std_cfg.h>
@@ -99,7 +99,7 @@
 1366414535 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_utils.h
 	<MULTIFX_typedef.h>
 
-1366556192 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/main.c
+1366567609 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/main.c
 	<MULTIFX_oss_std_cfg.h>
 	<MULTIFX_oss_utils.h>
 	<MULTIFX_FX_class.h>
@@ -123,13 +123,15 @@
 1366416292 /home/leonardo/MULTIFX_wcpy/trunk/fx1/FX_class.h
 	<MULTIFX_typedef.h>
 
-1366556203 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_class.c
+1366569096 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_class.c
 	<MULTIFX_FX_class.h>
 	<stdlib.h>
+	<stdio.h>
 	<MULTIFX_defines.h>
 	<string.h>
+	<MULTIFX_errors.h>
 
-1366556192 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_class.h
+1366569151 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_class.h
 	<MULTIFX_typedef.h>
 
 1366477833 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_library_utils.c
