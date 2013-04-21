@@ -18,6 +18,12 @@
 
 #undef DEBUG
 
+#define MAX_PARAMS (10)
+#define MAX_STATE_LEN (20)
+#define MOOG_ORDER (5)
+
+#define STD_FX_LIB_CALL MULTIFX_FLOATING_T *params,MULTIFX_FLOATING_T *in_frame, MULTIFX_FLOATING_T *out_frame,MULTIFX_FLOATING_T *state, MULTIFX_UINT32_T frame_len
+
 #endif
 
 
