@@ -6,20 +6,46 @@
 //PARAM ORDER Fc,kk,Fs
 MULTIFX_API_RET moog_filter (STD_FX_LIB_CALL)
 {
-MULTIFX_FLOATING_T      Fc          = params[0];
-MULTIFX_FLOATING_T      kk          = params[1];
-MULTIFX_FLOATING_T      Fs          = params[2];
-MULTIFX_FLOATING_T      Wc          = 2*PI_G*Fc;
-MULTIFX_FLOATING_T      Gamma       = Wc/(Wc+2*Fs);
-MULTIFX_FLOATING_T      alfa        = (2*Fs-Wc)/(2*Fs+Wc);
-MULTIFX_FLOATING_T      Gammapow    = pow(Gamma,4);
-MULTIFX_FLOATING_T      b[MOOG_ORDER]        =  {Gammapow *1,Gammapow *4,Gammapow *6,Gammapow *4,Gammapow *1};
-MULTIFX_FLOATING_T      a[MOOG_ORDER]        =  {1,-4*(alfa-kk*Gammapow),-6*(-pow(alfa,2)-kk*Gammapow),-4*(pow(alfa,3)-kk*Gammapow),(pow(alfa,4)+kk*Gammapow)};
-//static MULTIFX_FLOATING_T state[MOOG_ORDER];
-MULTIFX_API_RET ret = 0;
 
- ret=filter_DII_T (in_frame, out_frame, a, MOOG_ORDER, b, state,frame_len);
- STRAIGHT_RETURN(ret);
+MULTIFX_FLOATING_T      Fc = 0 ,kk= 0;
+MULTIFX_FLOATING_T      Wc= 0,Gamma= 0,alfa= 0,Gammapow= 0;
+MULTIFX_FLOATING_T      Fs          = 0;
+static MULTIFX_FLOATING_T      b[MOOG_ORDER] = {0,0,0,0,0};
+static MULTIFX_FLOATING_T      a[MOOG_ORDER] = {0,0,0,0,0};
+MULTIFX_API_RET ret = 0;
+MULTIFX_UINT32_T  time_idx =0, fx_idx=0;
+
+
+Fs = params[0];
+for (time_idx=0;time_idx<frame_len;time_idx++)
+{
+    fx_idx = 0;
+    Fc     = time_var_params[time_idx+fx_idx*frame_len];
+    fx_idx = 1;
+    kk     = time_var_params[time_idx+fx_idx*frame_len];
+
+    Wc          = 2*PI_G*Fc;
+    Gamma       = Wc/(Wc+2*Fs);
+    alfa        = (2*Fs-Wc)/(2*Fs+Wc);
+    Gammapow    = pow(Gamma,4);
+
+    b[0] = Gammapow;
+    b[1] = Gammapow*4;
+    b[2] = Gammapow*6;
+    b[3] = Gammapow*4;
+    b[4] = Gammapow;
+
+    a[0] = 1;
+    a[1] = -4*(alfa-kk*Gammapow);
+    a[2] = -6*(-pow(alfa,2)-kk*Gammapow);
+    a[3] = -4*(pow(alfa,3)-kk*Gammapow);
+    a[4] = (pow(alfa,4)+kk*Gammapow);
+
+     ret=filter_DII_T_sample_based (in_frame, out_frame, a, MOOG_ORDER, b, state);
+    STRAIGHT_RETURN(ret);
+}
+
+
 
 return MULTIFX_DEFAULT_RET;
 

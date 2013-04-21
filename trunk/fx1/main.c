@@ -43,7 +43,7 @@ int main ()
 
     /***************/
     FX_T *sin_src=NULL, *sin_src2;
-    MULTIFX_FLOATING_T sin_src_param[MAX_PARAMS],sin_src2_param[MAX_PARAMS];
+    MULTIFX_FLOATING_T sin_src_param[MAX_STATIC_PARAMS],sin_src2_param[MAX_STATIC_PARAMS];
     MULTIFX_FLOATING_T sin_init_state[MAX_STATE_LEN];
 
     /**************/
@@ -57,22 +57,22 @@ int main ()
 
 
 
-   sin_src=FX_init(frag_size,4,1,rbuffer_FLL);
-   sin_src_param[0]= 1000;
-   sin_src_param[1]= rate;
-   sin_src_param[2]= 0;
-   sin_src_param[3]= .9;
-   sin_init_state[0]=0;
-   ret = FX_set_params (sin_src, sin_src_param,sin_init_state);
-   ret =  FX_set_implementation (sin_src,&test_tone);
+//   sin_src=FX_init(frag_size,4,1,rbuffer_FLL);
+//   sin_src_param[0]= 1000;
+//   sin_src_param[1]= rate;
+//   sin_src_param[2]= 0;
+//   sin_src_param[3]= .9;
+//   sin_init_state[0]=0;
+//   ret = FX_set_params (sin_src, sin_src_param,sin_init_state);
+//   ret =  FX_set_implementation (sin_src,&test_tone);
+//
+//   sin_src2 = FX_clone(sin_src,rbuffer_FLR);
+//    sin_src2_param[0]= 1200;
+//   sin_src2_param[1]= rate;
+//   sin_src2_param[2]= 0;
+//   sin_src2_param[3]= .8;
 
-   sin_src2 = FX_clone(sin_src,rbuffer_FLR);
-    sin_src2_param[0]= 1200;
-   sin_src2_param[1]= rate;
-   sin_src2_param[2]= 0;
-   sin_src2_param[3]= .8;
-
- ret = FX_set_params (sin_src2, sin_src2_param,sin_init_state);
+ //ret = FX_set_params (sin_src2, sin_src2_param,sin_init_state);
 
     rd_len = frag_size;
 
@@ -89,13 +89,13 @@ int main ()
        // ret = *(moog->processing_func)(moog->params,rbuffer_FLL,moog->fx_out_buf,frag_size/2/2);
 
        /******* LEFT **************/
-        FX_process(sin_src);
-        FX_bufcpy(sin_src,wbuffer_FLL);
+//        FX_process(sin_src);
+//        FX_bufcpy(sin_src,wbuffer_FLL);
        // memcpy(wbuffer_FLL,rbuffer_FLL,frag_size/2/2*sizeof(MULTIFX_FLOATING_T));
         /************ RIGHT ****************/
        // memcpy(wbuffer_FLR,rbuffer_FLR,frag_size/2/2*sizeof(MULTIFX_FLOATING_T));
-         FX_process(sin_src2);
-        FX_bufcpy(sin_src2,wbuffer_FLR);
+//         FX_process(sin_src2);
+//        FX_bufcpy(sin_src2,wbuffer_FLR);
         /***************************************/
 
         ret = float2char_stereo (wbuffer, wbuffer_FLL, wbuffer_FLR, frag_size);

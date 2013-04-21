@@ -2,28 +2,28 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="MULTIFX_FX_class.c" open="1" top="1" tabpos="1">
-		<Cursor position="2674" topLine="0" />
+		<Cursor position="7019" topLine="0" />
 	</File>
 	<File name="MULTIFX_FX_class.h" open="1" top="0" tabpos="4">
-		<Cursor position="309" topLine="0" />
+		<Cursor position="669" topLine="0" />
 	</File>
-	<File name="MULTIFX_FX_library.c" open="1" top="0" tabpos="7">
-		<Cursor position="1151" topLine="0" />
+	<File name="MULTIFX_FX_library.c" open="1" top="0" tabpos="8">
+		<Cursor position="1285" topLine="25" />
 	</File>
-	<File name="MULTIFX_FX_library.h" open="1" top="0" tabpos="8">
+	<File name="MULTIFX_FX_library.h" open="1" top="0" tabpos="9">
 		<Cursor position="180" topLine="0" />
 	</File>
-	<File name="MULTIFX_FX_library_utils.c" open="1" top="0" tabpos="6">
-		<Cursor position="1573" topLine="16" />
+	<File name="MULTIFX_FX_library_utils.c" open="1" top="0" tabpos="7">
+		<Cursor position="530" topLine="46" />
 	</File>
-	<File name="MULTIFX_FX_library_utils.h" open="1" top="0" tabpos="5">
-		<Cursor position="739" topLine="0" />
+	<File name="MULTIFX_FX_library_utils.h" open="1" top="0" tabpos="6">
+		<Cursor position="930" topLine="0" />
 	</File>
 	<File name="MULTIFX_defines.h" open="1" top="0" tabpos="3">
-		<Cursor position="440" topLine="0" />
+		<Cursor position="573" topLine="0" />
 	</File>
-	<File name="MULTIFX_errors.h" open="0" top="0" tabpos="8">
-		<Cursor position="1165" topLine="0" />
+	<File name="MULTIFX_errors.h" open="1" top="0" tabpos="5">
+		<Cursor position="1350" topLine="0" />
 	</File>
 	<File name="MULTIFX_oss_conf.c" open="0" top="0" tabpos="1">
 		<Cursor position="166" topLine="0" />
@@ -37,16 +37,16 @@
 	<File name="MULTIFX_oss_std_cfg.h" open="0" top="0" tabpos="5">
 		<Cursor position="116" topLine="0" />
 	</File>
-	<File name="MULTIFX_oss_utils.c" open="1" top="0" tabpos="9">
+	<File name="MULTIFX_oss_utils.c" open="1" top="0" tabpos="10">
 		<Cursor position="183" topLine="151" />
 	</File>
 	<File name="MULTIFX_oss_utils.h" open="0" top="0" tabpos="14">
 		<Cursor position="60" topLine="0" />
 	</File>
-	<File name="MULTIFX_typedef.h" open="0" top="0" tabpos="3">
+	<File name="MULTIFX_typedef.h" open="1" top="0" tabpos="11">
 		<Cursor position="509" topLine="0" />
 	</File>
 	<File name="main.c" open="1" top="0" tabpos="2">
-		<Cursor position="2655" topLine="66" />
+		<Cursor position="1395" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
