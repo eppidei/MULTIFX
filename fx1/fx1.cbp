@@ -37,6 +37,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="MULTIFX_FX_class.h" />
+		<Unit filename="MULTIFX_FX_library.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="MULTIFX_FX_library.h" />
 		<Unit filename="MULTIFX_FX_library_utils.c">
 			<Option compilerVar="CC" />
 		</Unit>
