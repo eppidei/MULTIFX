@@ -45,6 +45,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="MULTIFX_FX_library_utils.h" />
+		<Unit filename="MULTIFX_OSCILLATOR_class.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="MULTIFX_OSCILLATOR_class.h" />
 		<Unit filename="MULTIFX_defines.h" />
 		<Unit filename="MULTIFX_errors.h" />
 		<Unit filename="MULTIFX_oss_conf.c">
