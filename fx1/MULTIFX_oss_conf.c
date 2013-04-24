@@ -34,7 +34,7 @@ MULTIFX_API_RET get_dev_infos (oss_audioinfo *infos, MULTIFX_INT32_T *fd)
     /****Getting device infos*********/
 
     MULTIFX_INT32_T ret = 0;
-    oss_audioinfo test;
+    static oss_audioinfo test;
 
     ret = ioctl (*fd, SNDCTL_ENGINEINFO,&test);
 

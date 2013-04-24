@@ -55,7 +55,7 @@
 	<unistd.h>
 	<stdio.h>
 
-1366752756 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_conf.c
+1366804324 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_conf.c
 	<MULTIFX_oss_conf.h>
 	<fcntl.h>
 	<stdio.h>
@@ -72,9 +72,9 @@
 	<stdint.h>
 	<MULTIFX_defines.h>
 
-1366755678 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_defines.h
+1366805143 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_defines.h
 
-1366568597 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_errors.h
+1366805191 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_errors.h
 
 1366414760 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_std_cfg.c
 	<MULTIFX_oss_std_cfg.h>
@@ -99,13 +99,14 @@
 1366414535 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_utils.h
 	<MULTIFX_typedef.h>
 
-1366761425 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/main.c
+1366814061 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/main.c
 	<MULTIFX_oss_std_cfg.h>
 	<MULTIFX_oss_utils.h>
 	<MULTIFX_FX_class.h>
 	<MULTIFX_OSCILLATOR_class.h>
 	<MULTIFX_FX_library.h>
 	<MULTIFX_FX_library_utils.h>
+	<MULTIFX_errors.h>
 	<unistd.h>
 	<stdio.h>
 	<stdlib.h>
@@ -125,7 +126,7 @@
 1366416292 /home/leonardo/MULTIFX_wcpy/trunk/fx1/FX_class.h
 	<MULTIFX_typedef.h>
 
-1366761125 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_class.c
+1366811124 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_class.c
 	<MULTIFX_FX_class.h>
 	<stdlib.h>
 	<stdio.h>
@@ -136,14 +137,14 @@
 1366761125 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_class.h
 	<MULTIFX_typedef.h>
 
-1366759559 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_library_utils.c
+1366811988 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_library_utils.c
 	<MULTIFX_FX_library_utils.h>
 	<math.h>
 
-1366759559 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_library_utils.h
+1366811951 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_library_utils.h
 	<MULTIFX_typedef.h>
 
-1366759559 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_library.c
+1366812095 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_library.c
 	<MULTIFX_FX_library.h>
 	<MULTIFX_defines.h>
 	<MULTIFX_typedef.h>
@@ -153,10 +154,11 @@
 1366477812 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_library.h
 	<MULTIFX_typedef.h>
 
-1366747441 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_OSCILLATOR_class.c
+1366811988 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_OSCILLATOR_class.c
 	<MULTIFX_OSCILLATOR_class.h>
 	<MULTIFX_typedef.h>
+	<stdlib.h>
 
-1366761070 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_OSCILLATOR_class.h
+1366812151 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_OSCILLATOR_class.h
 	<MULTIFX_typedef.h>
 

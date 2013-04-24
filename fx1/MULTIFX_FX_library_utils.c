@@ -63,7 +63,7 @@ MULTIFX_API_RET filter_DII_T_sample_based (MULTIFX_FLOATING_T in, MULTIFX_FLOATI
 //
 //}
 
-MULTIFX_API_RET oscillator (MULTIFX_FLOATING_T f_samp, MULTIFX_FLOATING_T f_synth, MULTIFX_UINT32_T len_frame, MULTIFX_FLOATING_T *out_frame, MULTIFX_FLOATING_T phase_offset, MULTIFX_FLOATING_T amp,MULTIFX_FLOATING_T* old_phase)
+MULTIFX_API_RET oscillator (MULTIFX_FLOATING_T f_samp, MULTIFX_FLOATING_T f_synth, MULTIFX_UINT32_T len_frame, MULTIFX_FLOATING_T *out_frame, MULTIFX_FLOATING_T phase_offset, MULTIFX_FLOATING_T amp,MULTIFX_FLOATING_T bias,MULTIFX_FLOATING_T* old_phase)
 {
 
     //static MULTIFX_FLOATING_T old_phase ;
@@ -73,7 +73,7 @@ MULTIFX_API_RET oscillator (MULTIFX_FLOATING_T f_samp, MULTIFX_FLOATING_T f_synt
     for (i=0;i<len_frame;i++)
     {
         normalized_phase = fmod(f_synth/f_samp*(i+1),1)+ *old_phase;
-        out_frame[i]= amp*sin(2 * PI_G * normalized_phase + phase_offset);
+        out_frame[i]= bias+amp*sin(2 * PI_G * normalized_phase + phase_offset);
     }
 
     *old_phase = normalized_phase ;

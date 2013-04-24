@@ -7,6 +7,7 @@
 #include <MULTIFX_OSCILLATOR_class.h>
 #include <MULTIFX_FX_library.h>
 #include <MULTIFX_FX_library_utils.h>
+#include <MULTIFX_errors.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,19 +20,13 @@
 int main ()
 {
     /********************GENERAL PARAMETERS********************************/
-
-    static MULTIFX_CHAR_T rbuffer[MAX_BUFF_DIM];
+static MULTIFX_CHAR_T rbuffer[MAX_BUFF_DIM];
     static MULTIFX_CHAR_T wbuffer[MAX_BUFF_DIM];
-//    MULTIFX_INT16_T *rbuffer_16L=calloc(MAX_BUFF_DIM/2/2,sizeof(MULTIFX_INT16_T));
-//    MULTIFX_INT16_T *rbuffer_16R=calloc(MAX_BUFF_DIM/2/2,sizeof(MULTIFX_INT16_T));
-//    MULTIFX_FLOATING_T *rbuffer_FLL=calloc(MAX_BUFF_DIM/2/2,sizeof(MULTIFX_FLOATING_T));
-//    MULTIFX_FLOATING_T *rbuffer_FLR=calloc(MAX_BUFF_DIM/2/2,sizeof(MULTIFX_FLOATING_T));
+
+
  static MULTIFX_FLOATING_T rbuffer_FLL[MAX_BUFF_DIM/2/2];
  static MULTIFX_FLOATING_T rbuffer_FLR[MAX_BUFF_DIM/2/2];
-//    MULTIFX_INT16_T *wbuffer_16L=calloc(MAX_BUFF_DIM/2/2,sizeof(MULTIFX_INT16_T));
-//    MULTIFX_INT16_T *wbuffer_16R=calloc(MAX_BUFF_DIM/2/2,sizeof(MULTIFX_INT16_T));
-//    MULTIFX_FLOATING_T *wbuffer_FLL=calloc(MAX_BUFF_DIM/2/2,sizeof(MULTIFX_FLOATING_T));
-//    MULTIFX_FLOATING_T *wbuffer_FLR=calloc(MAX_BUFF_DIM/2/2,sizeof(MULTIFX_FLOATING_T));
+
 static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
  static MULTIFX_FLOATING_T wbuffer_FLR[MAX_BUFF_DIM/2/2];
     MULTIFX_CHAR_T *devname = "/dev/dsp";
@@ -55,7 +50,7 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
     MULTIFX_FLOATING_T f_sy = 1000;
     MULTIFX_FLOATING_T f_sa = rate;
     MULTIFX_FLOATING_T ph_of = 0;
-    MULTIFX_FLOATING_T amp = 0.9;
+    MULTIFX_FLOATING_T amp = 0.05;
     MULTIFX_UINT32_T n_st_prm = 4;
     MULTIFX_UINT32_T n_vr_prm = 0;
     MULTIFX_UINT32_T state_length = 1;
@@ -72,7 +67,7 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
     MULTIFX_FLOATING_T moog_st_prm = rate;
     MULTIFX_UINT32_T moog_n_st_prm = 1;
     MULTIFX_FLOATING_T Fc = 5000;
-    MULTIFX_FLOATING_T kk = 3.8;
+    MULTIFX_FLOATING_T kk = 3.5;
     static MULTIFX_FLOATING_T moog_tv_prm[2] ;
    moog_tv_prm[0] = Fc;
    moog_tv_prm[1] = kk;
@@ -81,8 +76,8 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
     static MULTIFX_FLOATING_T moog_init_state[5];//={0,0,0,0,0};
     /***********OSC PARAMETERS****************/
     OSCILLATOR_T *sin_osc=NULL;
-    MULTIFX_FLOATING_T l_lim = 300;
-   MULTIFX_FLOATING_T h_lim = 5000;
+    MULTIFX_FLOATING_T l_lim = 700;
+   MULTIFX_FLOATING_T h_lim = 3000;
     MULTIFX_FLOATING_T osc_f = 1;
     MULTIFX_FLOATING_T *prm_2_vary;
     MULTIFX_UINT32_T n_tv_pm = 0;
@@ -97,21 +92,25 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
     STRAIGHT_RETURN(ret);
 
 ///***** TEST TONE INITIALIZATION ************/
-//
+
    sin_src=FX_init(n_bit,stereo_mode,frag_size,n_st_prm,n_vr_prm,state_length,NULL);
+   ALLOCATION_CHECK(sin_src);
    FX_set_static_params (sin_src, sin_static_param,4);
    FX_set_state (sin_src, &sin_init_state,1);
   FX_set_implementation (sin_src, &test_tone);
 
   /***** MOOG INITIALIZATION ************/
-  FX_get_out_buff(sin_src,&p_out_buff);
-  moog=FX_init(n_bit,stereo_mode,frag_size,moog_n_st_prm,moog_n_tv_prm,moog_state_length,p_out_buff);
+ // FX_get_out_buff(sin_src,&p_out_buff);
+  moog=FX_init(n_bit,stereo_mode,frag_size,moog_n_st_prm,moog_n_tv_prm,moog_state_length,rbuffer_FLL);
+  ALLOCATION_CHECK(moog);
 FX_set_static_params (moog, &moog_st_prm,1);
 FX_set_state (moog, moog_init_state,1);
 FX_init_timevarying_params (moog, moog_tv_prm,moog_n_tv_prm);
 FX_set_implementation (moog, &moog_filter);
 /*********OSCILLATOR CONFIGURATION****************/
 FX_get_timevarying_params (moog, &prm_2_vary,&n_tv_pm, &len_frame);
+sin_osc=OSC_init();
+ALLOCATION_CHECK(sin_osc);
 OSC_configure (sin_osc,l_lim, h_lim,rate,osc_f ,0);
 OSC_set_implementation(sin_osc,&oscillator);
 
@@ -133,13 +132,14 @@ OSC_set_implementation(sin_osc,&oscillator);
 
        /******* LEFT **************/
        FX_process(sin_src);
-       OSC_trigger(sin_osc,prm_2_vary,0,len_frame);
-       FX_process(moog);
-       //FX_bufcpy(sin_src,wbuffer_FLL);
+
+       FX_bufcpy(sin_src,wbuffer_FLL);
        // memcpy(wbuffer_FLL,rbuffer_FLL,frag_size/2/2*sizeof(MULTIFX_FLOATING_T));
         /************ RIGHT ****************/
        // memcpy(wbuffer_FLR,rbuffer_FLR,frag_size/2/2*sizeof(MULTIFX_FLOATING_T));
         // FX_process(sin_src);
+         OSC_trigger(sin_osc,prm_2_vary,0,len_frame);
+       FX_process(moog);
         FX_bufcpy(moog,wbuffer_FLR);
         /***************************************/
 
@@ -171,8 +171,10 @@ OSC_set_implementation(sin_osc,&oscillator);
         loopcount++;
     }
 
+    OSC_release(sin_osc);
     FX_release(sin_src);
     FX_release(moog);
+
 
 
 end :
