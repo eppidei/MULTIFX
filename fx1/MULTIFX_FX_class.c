@@ -17,7 +17,7 @@ MULTIFX_UINT32_T len_float_buff;
 MULTIFX_FLOATING_T *fx_state;
 MULTIFX_UINT32_T    state_len;
 MULTIFX_API_RET (*processing_func)(MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*,MULTIFX_UINT32_T);//param,timevarparam,inframe,outframe,state,len_frame
-MULTIFX_API_RET (*var_param_func)(MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_UINT32_T);//in_frame,timevarparam,len_frame
+//MULTIFX_API_RET (*var_param_func)(MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_UINT32_T);//in_frame,timevarparam,len_frame
 };
 //pfroc *static_params,*buffin,*buffout,bufflen
 FX_T* FX_init( MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode, MULTIFX_UINT32_T fragment_size, MULTIFX_UINT32_T n_static_params,MULTIFX_UINT32_T  n_time_varying_params,MULTIFX_UINT32_T state_length,MULTIFX_FLOATING_T* in_buff)
@@ -162,9 +162,9 @@ MULTIFX_API_RET FX_set_static_params (FX_T* p_FX, MULTIFX_FLOATING_T* p_static_p
 {
 
 
-    if (len_static_param!=p_FX->state_len)
+    if (len_static_param!=p_FX->n_static_params)
     {
-        return MULTIFX_STATESIZE_ERROR;
+        return MULTIFX_PARAMSIZE_ERROR;
     }
     else
     {
@@ -174,13 +174,23 @@ MULTIFX_API_RET FX_set_static_params (FX_T* p_FX, MULTIFX_FLOATING_T* p_static_p
     return MULTIFX_DEFAULT_RET;
 }
 
+MULTIFX_API_RET FX_get_static_params(FX_T* p_FX, MULTIFX_FLOATING_T** p_static_params,MULTIFX_UINT32_T* len_static_param)
+{
+
+    *len_static_param = p_FX->n_static_params;
+    *p_static_params = p_FX->static_params;
+
+    return MULTIFX_DEFAULT_RET;
+
+}
+
 MULTIFX_API_RET FX_set_state (FX_T* p_FX, MULTIFX_FLOATING_T* p_state,MULTIFX_UINT32_T len_state)
 {
 
 
      if (len_state!=p_FX->state_len)
     {
-        return MULTIFX_PARAMSIZE_ERROR;
+        return MULTIFX_STATESIZE_ERROR;
     }
     else
     {
@@ -189,6 +199,13 @@ MULTIFX_API_RET FX_set_state (FX_T* p_FX, MULTIFX_FLOATING_T* p_state,MULTIFX_UI
 
 
      return MULTIFX_DEFAULT_RET;
+}
+
+MULTIFX_API_RET FX_get_state (FX_T* p_FX, MULTIFX_FLOATING_T** p_state,MULTIFX_UINT32_T *len_state)
+{
+    *len_state=p_FX->state_len;
+    *p_state = p_FX->fx_state;
+    return MULTIFX_DEFAULT_RET;
 }
 
 MULTIFX_API_RET FX_init_timevarying_params (FX_T* p_FX, MULTIFX_FLOATING_T* p_tv_params,MULTIFX_UINT32_T n_tv_param)
@@ -218,6 +235,15 @@ MULTIFX_API_RET FX_init_timevarying_params (FX_T* p_FX, MULTIFX_FLOATING_T* p_tv
     return MULTIFX_DEFAULT_RET;
 }
 
+MULTIFX_API_RET FX_get_timevarying_params (FX_T* p_FX, MULTIFX_FLOATING_T** p_tv_params,MULTIFX_UINT32_T *n_tv_param, MULTIFX_UINT32_T* len_frame)
+{
+    *n_tv_param = p_FX->n_time_varying_params;
+    *len_frame =  p_FX->len_float_buff;
+    *p_tv_params = p_FX->time_varying_params;
+
+    return MULTIFX_DEFAULT_RET;
+}
+
 MULTIFX_API_RET FX_set_implementation (FX_T* p_FX, MULTIFX_INT32_T (*pfunc)(MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*,MULTIFX_UINT32_T))
 {
 
@@ -243,4 +269,11 @@ MULTIFX_API_RET FX_bufcpy(FX_T* p_FX,MULTIFX_FLOATING_T* buff)
     return MULTIFX_DEFAULT_RET;
 }
 
+MULTIFX_API_RET FX_get_out_buff(FX_T* p_FX,MULTIFX_FLOATING_T** buff)
+{
+    *buff = p_FX->fx_out_buf;
+
+    return MULTIFX_DEFAULT_RET;
+
+}
 

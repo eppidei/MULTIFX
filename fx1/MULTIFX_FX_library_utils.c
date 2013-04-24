@@ -22,16 +22,16 @@ MULTIFX_API_RET filter_DII_T (MULTIFX_FLOATING_T *in, MULTIFX_FLOATING_T *out, M
 
 }
 
-MULTIFX_API_RET filter_DII_T_sample_based (MULTIFX_FLOATING_T *in, MULTIFX_FLOATING_T *out, MULTIFX_FLOATING_T *a, MULTIFX_UINT32_T order, MULTIFX_FLOATING_T *b, MULTIFX_FLOATING_T *state)
+MULTIFX_API_RET filter_DII_T_sample_based (MULTIFX_FLOATING_T in, MULTIFX_FLOATING_T *out, MULTIFX_FLOATING_T *a, MULTIFX_UINT32_T order, MULTIFX_FLOATING_T *b, MULTIFX_FLOATING_T *state)
 {
-    MULTIFX_UINT32_T i=0,k=0;
+    MULTIFX_UINT32_T i=0;
 
 
-    out[k] = b[0]*(in[k])+state[0];
+    *out = b[0]*(in)+state[0];
 
         for (i=0;i<(order-1);i++)
         {
-            state[i]=b[i+1]*(in[k])+state[i+1]-a[i+1]*(out[k]);
+            state[i]=b[i+1]*(in)+state[i+1]-a[i+1]*(*out);
         }
 
 

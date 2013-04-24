@@ -13,6 +13,7 @@ MULTIFX_API_RET FX_process(FX_T* p_FX);
 MULTIFX_API_RET FX_bufcpy(FX_T* p_FX,MULTIFX_FLOATING_T* buff);
 MULTIFX_API_RET FX_release (FX_T* p_FX);
 FX_T* FX_clone(FX_T* p_FX,MULTIFX_FLOATING_T* in_buff);
-
+MULTIFX_API_RET FX_get_out_buff(FX_T* p_FX,MULTIFX_FLOATING_T** buff);
+MULTIFX_API_RET FX_get_timevarying_params (FX_T* p_FX, MULTIFX_FLOATING_T** p_tv_params,MULTIFX_UINT32_T *n_tv_param, MULTIFX_UINT32_T* len_frame);
 
 #endif

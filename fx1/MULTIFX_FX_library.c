@@ -41,7 +41,7 @@ for (time_idx=0;time_idx<frame_len;time_idx++)
     a[3] = -4*(pow(alfa,3)-kk*Gammapow);
     a[4] = (pow(alfa,4)+kk*Gammapow);
 
-     ret=filter_DII_T_sample_based (in_frame, out_frame, a, MOOG_ORDER, b, state);
+     ret=filter_DII_T_sample_based (in_frame[time_idx], &out_frame[time_idx], a, MOOG_ORDER, b, state);
     STRAIGHT_RETURN(ret);
 }
 
