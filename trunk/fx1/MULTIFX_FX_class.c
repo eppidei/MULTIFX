@@ -154,6 +154,7 @@ MULTIFX_API_RET FX_release (FX_T* p_FX)
     free(p_FX -> time_varying_params);
     free(p_FX -> fx_out_buf);
     free(p_FX -> fx_state);
+    free(p_FX);
 
     return MULTIFX_DEFAULT_RET;
 }

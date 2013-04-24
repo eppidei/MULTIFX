@@ -57,9 +57,10 @@ MULTIFX_API_RET test_tone (STD_FX_LIB_CALL)
     MULTIFX_FLOATING_T f_samp           = params[1];
     MULTIFX_FLOATING_T phase_offset     = params[2];
     MULTIFX_FLOATING_T amp              = params[3];
+    MULTIFX_FLOATING_T bias = 0;
     MULTIFX_API_RET    ret              = 0;
 
-    ret = oscillator (f_samp, f_synth, frame_len, out_frame, phase_offset,  amp,state);
+    ret = oscillator (f_samp, f_synth, frame_len, out_frame, phase_offset,  amp,bias,state);
     STRAIGHT_RETURN(ret);
 
     return ret;
