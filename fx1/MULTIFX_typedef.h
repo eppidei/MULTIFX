@@ -26,4 +26,22 @@ typedef float MULTIFX_FLOATING_T;
 
 typedef MULTIFX_INT32_T MULTIFX_API_RET ;
 
+typedef struct MULTIFX_targs_S MULTIFX_targs_T;
+
+
+struct MULTIFX_targs_S
+{
+    MULTIFX_INT32_T device_fd;
+    MULTIFX_INT32_T sample_rate;
+    MULTIFX_UINT16_T n_bit  ;
+     MULTIFX_UINT16_T stereo_mode  ;
+    MULTIFX_UINT32_T buff_char_len;
+    MULTIFX_CHAR_T *read_buffer;
+    MULTIFX_CHAR_T *write_buffer;
+    MULTIFX_FLOATING_T *read_buff_L;
+    MULTIFX_FLOATING_T *read_buff_R;
+    MULTIFX_FLOATING_T *write_buff_L;
+    MULTIFX_FLOATING_T *write_buff_R;
+};
+
 #endif

@@ -5,8 +5,10 @@
 #define USE_SINGLE
 
 #define MULTIFX_DEFAULT_RET (0)
-#define STRAIGHT_RETURN(x) if (x < 0) return x;
-#define ALLOCATION_CHECK(x) if (x==NULL) return MULTIFX_ALLOCATION_ERROR;
+#define STRAIGHT_RETURN(x) if (x < 0) {return x;}
+#define STRAIGHT_tRETURN(x) if (x < 0) {pthread_exit((void*)&x);}
+#define ALLOCATION_CHECK(x) if (x==NULL) {return MULTIFX_ALLOCATION_ERROR;}
+#define ALLOCATION_tCHECK(x) if (x==NULL) {MULTIFX_INT32_T my_ret=MULTIFX_ALLOCATION_ERROR; pthread_exit((void*)&my_ret);}
 #define PI_G (3.141592653589793115997963468544185161590576171875L)
 
 

@@ -1,5 +1,6 @@
 #include <MULTIFX_OSCILLATOR_class.h>
 #include <MULTIFX_typedef.h>
+#include <MULTIFX_errors.h>
 #include <stdlib.h>
 
 
@@ -35,6 +36,10 @@ MULTIFX_API_RET OSC_configure (OSCILLATOR_T *p_osc,MULTIFX_FLOATING_T low_limit,
     p_osc->sample_rate  =sample_rate;
     p_osc->freq         = freq;
     p_osc->phase_offset =phase_off;
+    if (low_limit>high_limit)
+    {
+        return MULTIFX_INPUT_ARGS_ERROR;
+    }
     p_osc->bias         = (low_limit+high_limit)/2;
     p_osc->amp          =  (high_limit-low_limit)/2;
 
