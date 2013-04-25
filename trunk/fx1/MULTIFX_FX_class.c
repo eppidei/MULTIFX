@@ -188,7 +188,6 @@ MULTIFX_API_RET FX_get_static_params(FX_T* p_FX, MULTIFX_FLOATING_T** p_static_p
 MULTIFX_API_RET FX_set_state (FX_T* p_FX, MULTIFX_FLOATING_T* p_state,MULTIFX_UINT32_T len_state)
 {
 
-
      if (len_state!=p_FX->state_len)
     {
         return MULTIFX_STATESIZE_ERROR;

@@ -20,7 +20,7 @@
 		<Cursor position="511" topLine="0" />
 	</File>
 	<File name="MULTIFX_OSCILLATOR_class.c" open="1" top="0" tabpos="4">
-		<Cursor position="2043" topLine="17" />
+		<Cursor position="94" topLine="0" />
 	</File>
 	<File name="MULTIFX_OSCILLATOR_class.h" open="1" top="0" tabpos="11">
 		<Cursor position="590" topLine="0" />
@@ -29,7 +29,7 @@
 		<Cursor position="180" topLine="0" />
 	</File>
 	<File name="MULTIFX_errors.h" open="1" top="0" tabpos="15">
-		<Cursor position="1384" topLine="0" />
+		<Cursor position="1456" topLine="0" />
 	</File>
 	<File name="MULTIFX_oss_conf.c" open="1" top="0" tabpos="14">
 		<Cursor position="649" topLine="18" />
@@ -53,6 +53,6 @@
 		<Cursor position="509" topLine="0" />
 	</File>
 	<File name="main.c" open="1" top="1" tabpos="2">
-		<Cursor position="1640" topLine="45" />
+		<Cursor position="4752" topLine="161" />
 	</File>
 </CodeBlocks_layout_file>
