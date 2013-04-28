@@ -24,8 +24,18 @@
 #define MAX_STATIC_PARAMS (10)
 #define MAX_STATE_LEN (20)
 #define MOOG_ORDER (5)
+#define MAX_FX_IDLEN (10+1)
+#define ENABLE (1)
+#define DISABLE (0)
+
 
 #define STD_FX_LIB_CALL MULTIFX_FLOATING_T *params,MULTIFX_FLOATING_T *time_var_params,MULTIFX_FLOATING_T *in_frame, MULTIFX_FLOATING_T *out_frame,MULTIFX_FLOATING_T *state, MULTIFX_UINT32_T frame_len
+
+
+#define MAX_CHAR_LEN (20+1)
+#define MAX_FX_OPTIONS   (3)
+#define MAX_FX_MENU   (4)
+
 
 #endif
 
