@@ -3,7 +3,7 @@
 
 #include <MULTIFX_typedef.h>
 
-typedef struct OSCILLATOR_S OSCILLATOR_T ;
+
 
 
 OSCILLATOR_T* OSC_init();

@@ -7,6 +7,8 @@
 
 
 struct FX_S {
+MULTIFX_CHAR_T  *fx_id;
+MULTIFX_UINT32_T id_len;
 MULTIFX_FLOATING_T *static_params;
 MULTIFX_UINT32_T n_static_params;
 MULTIFX_FLOATING_T *time_varying_params;
@@ -20,7 +22,8 @@ MULTIFX_API_RET (*processing_func)(MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULT
 //MULTIFX_API_RET (*var_param_func)(MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_UINT32_T);//in_frame,timevarparam,len_frame
 };
 //pfroc *static_params,*buffin,*buffout,bufflen
-FX_T* FX_init( MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode, MULTIFX_UINT32_T fragment_size, MULTIFX_UINT32_T n_static_params,MULTIFX_UINT32_T  n_time_varying_params,MULTIFX_UINT32_T state_length,MULTIFX_FLOATING_T* in_buff)
+FX_T* FX_init( MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode, MULTIFX_UINT32_T fragment_size, MULTIFX_UINT32_T n_static_params,
+              MULTIFX_UINT32_T  n_time_varying_params,MULTIFX_UINT32_T state_length,MULTIFX_FLOATING_T* in_buff, MULTIFX_CHAR_T* id,MULTIFX_UINT32_T id_len)
 {
     FX_T* pthis = calloc(1,sizeof(FX_T));
     MULTIFX_UINT32_T  len_buff_nbit=0,len_buff=0;
@@ -53,6 +56,11 @@ FX_T* FX_init( MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode, MULTIFX_UINT
         }
 
         /*********************Memory allocation and initialization ****************************/
+        pthis ->id_len = id_len;
+        pthis -> fx_id = calloc(id_len+1,sizeof(MULTIFX_CHAR_T));
+        strncpy((char*)pthis -> fx_id,(char*)id,id_len*sizeof(MULTIFX_CHAR_T));
+
+
         pthis -> n_static_params      = n_static_params;
         pthis -> static_params        = calloc(n_static_params,sizeof(MULTIFX_FLOATING_T));
         if (pthis -> static_params == NULL)
@@ -96,6 +104,15 @@ FX_T* FX_init( MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode, MULTIFX_UINT
 
 }
 
+FX_T* FX_param_exchange_init (MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode)
+{
+    FX_T *pthis = NULL;
+    /** static params double buffered****/
+    pthis= FX_init( n_bit,stereo_mode, 0, 2*MAX_STATIC_PARAMS,0,0,NULL, (MULTIFX_CHAR_T*)"",MAX_FX_IDLEN);
+
+    return pthis;
+}
+
 FX_T* FX_clone(FX_T* p_FX,MULTIFX_FLOATING_T* in_buff)
 {
 
@@ -103,6 +120,12 @@ FX_T* FX_clone(FX_T* p_FX,MULTIFX_FLOATING_T* in_buff)
 
     if (pthis!=NULL)
     {
+            /*****TO DO Inserire sistema rapporti parentela cloni******************/
+        pthis -> id_len = p_FX -> id_len ;
+        pthis -> fx_id  = calloc(pthis -> id_len,sizeof(MULTIFX_CHAR_T));
+        strcpy( (char*) pthis -> fx_id,(char*)p_FX -> fx_id);
+
+
 
          pthis -> len_float_buff        = p_FX -> len_float_buff;
 
@@ -150,6 +173,7 @@ FX_T* FX_clone(FX_T* p_FX,MULTIFX_FLOATING_T* in_buff)
 MULTIFX_API_RET FX_release (FX_T* p_FX)
 {
 
+    free(p_FX->fx_id);
     free(p_FX -> static_params);
     free(p_FX -> time_varying_params);
     free(p_FX -> fx_out_buf);
