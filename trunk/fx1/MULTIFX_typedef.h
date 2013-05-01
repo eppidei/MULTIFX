@@ -29,10 +29,13 @@ typedef struct FX_S FX_T;
 typedef struct OSCILLATOR_S OSCILLATOR_T ;
 
 /**************UI CLASS*******************/
-enum SM_UI_states { INIT, SHOW_MAIN, LEV1,LEV2 };
+enum SM_UI_states { INIT, ATTACH_LEFT, ATTACH_RIGHT,INIZ_SEQUENCE,PROCESS,CHANGE_PARAMS};
 
 typedef  struct ncurses_UI_S ncurses_UI_T;
 
+/**************FX Manager ********************/
+//typedef struct FX_Manager_S FX_Manager_T;
+//enum commands {NOTHING2DO,FX_INIT,FX_RELEASE,FX_CONFIGURE};
 /*****************************************/
 
 typedef MULTIFX_INT32_T MULTIFX_API_RET ;
@@ -55,6 +58,15 @@ struct MULTIFX_targs_S
     MULTIFX_FLOATING_T *write_buff_R;
     FX_T              *params_exchange;
     MULTIFX_UINT16_T enable_mainloop;
+    FX_T *p_left;
+    FX_T *p_right;
+    OSCILLATOR_T *p_oscL;
+    MULTIFX_FLOATING_T* p_param2vary_L;
+    MULTIFX_UINT32_T param2vary_idxL;
+    OSCILLATOR_T *p_oscR;
+    MULTIFX_FLOATING_T* p_param2vary_R;
+    MULTIFX_UINT32_T param2vary_idxR;
+    MULTIFX_UINT32_T l_frame;
 };
 
 #endif

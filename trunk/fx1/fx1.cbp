@@ -19,6 +19,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-lpthread" />
+					<Add option="-lcurses" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -67,10 +68,18 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="MULTIFX_oss_utils.h" />
+		<Unit filename="MULTIFX_threads.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="MULTIFX_threads.h" />
 		<Unit filename="MULTIFX_typedef.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="ncurses_UI_class.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ncurses_UI_class.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
