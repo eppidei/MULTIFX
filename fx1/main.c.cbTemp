@@ -86,7 +86,7 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
    MULTIFX_FLOATING_T h_lim[MOOG_N_TV_PARAMS] = {3000,3.9};
     MULTIFX_FLOATING_T osc_f[MOOG_N_TV_PARAMS] = {1,1};
     MULTIFX_FLOATING_T ph_off[MOOG_N_TV_PARAMS] = {0,0};
- //   MULTIFX_INT32_T (osc_impl)[MOOG_N_TV_PARAMS]= {oscillator,oscillator};
+    MULTIFX_INT32_T (osc_impl)[MOOG_N_TV_PARAMS]= {oscillator,oscillator};
 //    MULTIFX_FLOATING_T *prm_2_vary[N_EFFECTS]={NULL,NULL};
 //    MULTIFX_UINT32_T n_tv_pm[N_EFFECTS] = {0,0};
 //    MULTIFX_UINT32_T len_frame = 0;
