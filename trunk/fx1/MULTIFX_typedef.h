@@ -46,9 +46,9 @@ typedef struct MULTIFX_targs_S MULTIFX_targs_T;
 struct MULTIFX_targs_S
 {
     MULTIFX_INT32_T device_fd;
-    MULTIFX_INT32_T sample_rate;
-    MULTIFX_UINT16_T n_bit  ;
-     MULTIFX_UINT16_T stereo_mode  ;
+//    MULTIFX_INT32_T sample_rate;
+//    MULTIFX_UINT16_T n_bit  ;
+//     MULTIFX_UINT16_T stereo_mode  ;
     MULTIFX_UINT32_T buff_char_len;
     MULTIFX_CHAR_T *read_buffer;
     MULTIFX_CHAR_T *write_buffer;
@@ -60,13 +60,13 @@ struct MULTIFX_targs_S
     MULTIFX_UINT16_T enable_mainloop;
     FX_T *p_left;
     FX_T *p_right;
-    OSCILLATOR_T *p_oscL;
-    MULTIFX_FLOATING_T* p_param2vary_L;
-    MULTIFX_UINT32_T param2vary_idxL;
-    OSCILLATOR_T *p_oscR;
-    MULTIFX_FLOATING_T* p_param2vary_R;
-    MULTIFX_UINT32_T param2vary_idxR;
-    MULTIFX_UINT32_T l_frame;
+//    OSCILLATOR_T *p_oscL;
+//    MULTIFX_FLOATING_T* p_param2vary_L;
+//    MULTIFX_UINT32_T param2vary_idxL;
+//    OSCILLATOR_T *p_oscR;
+//    MULTIFX_FLOATING_T* p_param2vary_R;
+//    MULTIFX_UINT32_T param2vary_idxR;
+   // MULTIFX_UINT32_T l_frame;
 };
 
 #endif

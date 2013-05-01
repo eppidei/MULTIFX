@@ -4,7 +4,17 @@
 #include <MULTIFX_defines.h>
 #include <string.h>
 #include <MULTIFX_errors.h>
-
+struct OSCILLATOR_S {
+MULTIFX_UINT16_T ena;
+MULTIFX_FLOATING_T phase_offset;
+MULTIFX_FLOATING_T bias;
+MULTIFX_FLOATING_T amp;
+MULTIFX_FLOATING_T sample_rate;
+MULTIFX_FLOATING_T freq;
+MULTIFX_FLOATING_T *tv_parameter;
+MULTIFX_FLOATING_T *oscillator_state;
+MULTIFX_API_RET (*var_param_func)(MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_UINT32_T,MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T*);//(MULTIFX_FLOATING_T f_samp, MULTIFX_FLOATING_T f_synth, MULTIFX_UINT32_T len_frame, MULTIFX_FLOATING_T *out_frame, MULTIFX_FLOATING_T phase_offset, MULTIFX_FLOATING_T amp,MULTIFX_FLOATING_T* old_phase)
+};
 
 struct FX_S {
 MULTIFX_CHAR_T  *fx_id;
@@ -19,14 +29,14 @@ MULTIFX_UINT32_T len_float_buff;
 MULTIFX_FLOATING_T *fx_state;
 MULTIFX_UINT32_T    state_len;
 MULTIFX_API_RET (*processing_func)(MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*,MULTIFX_UINT32_T);//param,timevarparam,inframe,outframe,state,len_frame
-//MULTIFX_API_RET (*var_param_func)(MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_UINT32_T);//in_frame,timevarparam,len_frame
+OSCILLATOR_T **array_osc;
 };
 //pfroc *static_params,*buffin,*buffout,bufflen
 FX_T* FX_init( MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode, MULTIFX_UINT32_T fragment_size, MULTIFX_UINT32_T n_static_params,
               MULTIFX_UINT32_T  n_time_varying_params,MULTIFX_UINT32_T state_length,MULTIFX_FLOATING_T* in_buff, MULTIFX_CHAR_T* id,MULTIFX_UINT32_T id_len)
 {
     FX_T* pthis = calloc(1,sizeof(FX_T));
-    MULTIFX_UINT32_T  len_buff_nbit=0,len_buff=0;
+    MULTIFX_UINT32_T  len_buff_nbit=0,len_buff=0,i=0;
 
 
     if (pthis!=NULL)
@@ -73,7 +83,7 @@ FX_T* FX_init( MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode, MULTIFX_UINT
         pthis -> time_varying_params  = calloc(n_time_varying_params*len_buff,sizeof(MULTIFX_FLOATING_T));
         if (pthis -> time_varying_params == NULL)
         {
-            fprintf(stderr,"\time_varying_params allocation failure\n");
+            fprintf(stderr,"\ntime_varying_params allocation failure\n");
             return NULL;
         }
 
@@ -83,7 +93,7 @@ FX_T* FX_init( MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode, MULTIFX_UINT
         pthis -> fx_out_buf           = calloc(len_buff,sizeof(MULTIFX_FLOATING_T));
         if (pthis -> fx_out_buf == NULL)
         {
-            fprintf(stderr,"\fx_out_buf allocation failure\n");
+            fprintf(stderr,"\nfx_out_buf allocation failure\n");
             return NULL;
         }
 
@@ -91,8 +101,37 @@ FX_T* FX_init( MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode, MULTIFX_UINT
         pthis -> fx_state             = calloc(state_length,sizeof(MULTIFX_FLOATING_T));
         if (pthis -> fx_state == NULL)
         {
-            fprintf(stderr,"\fx_state allocation failure\n");
+            fprintf(stderr,"\nfx_state allocation failure\n");
             return NULL;
+        }
+
+
+        pthis -> array_osc = calloc(n_time_varying_params,sizeof(OSCILLATOR_T*));
+        if (pthis -> array_osc == NULL)
+        {
+            fprintf(stderr,"\noscillator pointer array allocation failure\n");
+            return NULL;
+        }
+
+
+
+        for(i=0;i<n_time_varying_params;i++)
+        {
+            pthis -> array_osc[i] = calloc(1,sizeof(OSCILLATOR_T));
+
+            if (pthis -> array_osc[i] == NULL)
+            {
+                fprintf(stderr,"\noscillator pointer array allocation failure\n");
+                return NULL;
+            }
+
+             (pthis -> array_osc[i])->oscillator_state = calloc(1,sizeof(MULTIFX_FLOATING_T));
+
+             if ( (pthis -> array_osc[i])->oscillator_state == NULL)
+            {
+                fprintf(stderr,"\noscillator state allocation failure\n");
+                return NULL;
+            }
         }
 
         /********** TO DO Inizializzare funzioni FeedThrough *********************/
@@ -103,6 +142,8 @@ FX_T* FX_init( MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode, MULTIFX_UINT
     return pthis;
 
 }
+
+
 
 FX_T* FX_param_exchange_init (MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode)
 {
@@ -170,16 +211,57 @@ FX_T* FX_clone(FX_T* p_FX,MULTIFX_FLOATING_T* in_buff)
     return pthis;
 }
 
+
+
 MULTIFX_API_RET FX_release (FX_T* p_FX)
 {
 
-    free(p_FX->fx_id);
-    free(p_FX -> static_params);
-    free(p_FX -> time_varying_params);
-    free(p_FX -> fx_out_buf);
-    free(p_FX -> fx_state);
-    free(p_FX);
+    MULTIFX_UINT32_T i= 0;
 
+    CHECKNFREE(p_FX -> fx_id);
+    CHECKNFREE(p_FX -> static_params);
+    CHECKNFREE(p_FX -> time_varying_params);
+    CHECKNFREE(p_FX -> fx_out_buf);
+    CHECKNFREE(p_FX -> fx_state);
+    for (i=0;i<p_FX->n_time_varying_params;i++)
+    {
+        CHECKNFREE(p_FX -> array_osc[i]->oscillator_state);
+        CHECKNFREE(p_FX -> array_osc[i]);
+    }
+    CHECKNFREE(p_FX -> array_osc);
+    CHECKNFREE(p_FX);
+
+    return MULTIFX_DEFAULT_RET;
+}
+
+MULTIFX_API_RET FX_osc_config(FX_T* p_FX,MULTIFX_UINT16_T *enabler,MULTIFX_FLOATING_T *low_limit, MULTIFX_FLOATING_T *high_limit,MULTIFX_FLOATING_T sample_rate,MULTIFX_FLOATING_T *freq ,MULTIFX_FLOATING_T *phase_off )
+{
+     MULTIFX_UINT32_T i= 0;
+
+
+     for (i=0;i<p_FX->n_time_varying_params;i++)
+     {
+          (p_FX->array_osc[i])->ena  =enabler[i];
+         (p_FX->array_osc[i])->sample_rate  =sample_rate;
+        (p_FX->array_osc[i])->freq         = freq[i];
+        (p_FX->array_osc[i])->phase_offset =phase_off[i];
+        if (low_limit[i]>high_limit[i])
+        {
+            return MULTIFX_INPUT_ARGS_ERROR;
+        }
+        (p_FX->array_osc[i])->bias         = (low_limit[i]+high_limit[i])/2;
+        (p_FX->array_osc[i])->amp          =  (high_limit[i]-low_limit[i])/2;
+
+     }
+
+
+    return MULTIFX_DEFAULT_RET;
+}
+
+MULTIFX_API_RET FX_osc_implementation (FX_T* p_FX, MULTIFX_UINT32_T osc_idx,MULTIFX_INT32_T (*pfunc)(MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_UINT32_T,MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T*))
+{
+
+    (p_FX->array_osc[osc_idx])->var_param_func = pfunc;
     return MULTIFX_DEFAULT_RET;
 }
 
@@ -277,9 +359,25 @@ MULTIFX_API_RET FX_set_implementation (FX_T* p_FX, MULTIFX_INT32_T (*pfunc)(MULT
 }
 
 
-MULTIFX_API_RET FX_process(FX_T* p_FX)
+MULTIFX_API_RET FX_process(FX_T* p_FX,MULTIFX_UINT32_T param_idx)
 {
-    MULTIFX_API_RET ret = 0;
+    MULTIFX_API_RET ret = 0,i=0;
+    OSCILLATOR_T * p_tmp=NULL;
+    /////
+
+    for (i=0;i<p_FX->n_time_varying_params;i++)
+    {
+        p_tmp=(p_FX->array_osc[i]);
+        if (p_tmp->ena == ENABLE)
+        {
+             p_tmp->tv_parameter = &(p_FX->time_varying_params[param_idx*p_FX->len_float_buff]);//indirizza il parametro all'interno buffer parametri tempo varianti
+
+             ret = (p_tmp->var_param_func)(p_tmp->sample_rate,p_tmp->freq,p_FX->len_float_buff,p_tmp->tv_parameter,p_tmp->phase_offset, p_tmp->amp,p_tmp->bias,p_tmp->oscillator_state);
+        }
+
+    }
+
+
 
     ret = (p_FX->processing_func)(p_FX->static_params,p_FX->time_varying_params,p_FX->fx_in_buf,p_FX->fx_out_buf,p_FX->fx_state,(p_FX->len_float_buff));
 

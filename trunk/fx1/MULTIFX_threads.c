@@ -16,9 +16,9 @@ void *ProcMainLoop(void *threadarg)
     MULTIFX_targs_T* targuments     = threadarg;
     MULTIFX_INT32_T fd_dev          = targuments->device_fd;
     MULTIFX_INT32_T frag_size       = targuments->buff_char_len;
-    MULTIFX_INT32_T rate            = targuments->sample_rate;
-    MULTIFX_UINT16_T n_bit          = targuments->n_bit;
-    MULTIFX_UINT16_T stereo_mode    = targuments->stereo_mode;
+//    MULTIFX_INT32_T rate            = targuments->sample_rate;
+//    MULTIFX_UINT16_T n_bit          = targuments->n_bit;
+//    MULTIFX_UINT16_T stereo_mode    = targuments->stereo_mode;
     MULTIFX_API_RET ret             = 0;
     MULTIFX_CHAR_T *rbuffer         = targuments->read_buffer;
     MULTIFX_CHAR_T *wbuffer         = targuments->write_buffer;
@@ -29,13 +29,13 @@ void *ProcMainLoop(void *threadarg)
     MULTIFX_UINT16_T flag           = targuments->enable_mainloop;
     FX_T*             left_chain    = targuments->p_left;
     FX_T*             right_chain    = targuments->p_right;
-    OSCILLATOR_T*      osc_L         = targuments->p_oscL;
-    OSCILLATOR_T*      osc_R        = targuments->p_oscR;
-    MULTIFX_FLOATING_T*  p_param2vary_L=targuments->p_param2vary_L;
-    MULTIFX_UINT32_T          param2vary_idxL=targuments->param2vary_idxL;
-    MULTIFX_FLOATING_T*      p_param2vary_R=targuments->p_param2vary_R;
-    MULTIFX_UINT32_T      param2vary_idxR=targuments->param2vary_idxR;
-    MULTIFX_UINT32_T len_frame=targuments->l_frame;
+//    OSCILLATOR_T*      osc_L         = targuments->p_oscL;
+//    OSCILLATOR_T*      osc_R        = targuments->p_oscR;
+//    MULTIFX_FLOATING_T*  p_param2vary_L=targuments->p_param2vary_L;
+//    MULTIFX_UINT32_T          param2vary_idxL=targuments->param2vary_idxL;
+//    MULTIFX_FLOATING_T*      p_param2vary_R=targuments->p_param2vary_R;
+//    MULTIFX_UINT32_T      param2vary_idxR=targuments->param2vary_idxR;
+   // MULTIFX_UINT32_T len_frame=targuments->l_frame;
   /************************************/
      #ifdef DEBUG
     FILE *fid_in,*fid_out;
@@ -135,24 +135,24 @@ void *ProcMainLoop(void *threadarg)
 
 
        /******* LEFT **************/
-       if (p_param2vary_L!=NULL)
-       {
-           ret=OSC_trigger(osc_L,p_param2vary_L,param2vary_idxL,len_frame);
-         STRAIGHT_tRETURN(ret);
-       }
+//       if (p_param2vary_L!=NULL)
+//       {
+//           ret=OSC_trigger(osc_L,p_param2vary_L,param2vary_idxL,len_frame);
+//         STRAIGHT_tRETURN(ret);
+//       }
 
-       ret=FX_process(left_chain);
+       ret=FX_process(left_chain,0);
        STRAIGHT_tRETURN(ret);
        ret=FX_bufcpy(left_chain,wbuffer_FLL);
        STRAIGHT_tRETURN(ret);
        // memcpy(wbuffer_FLL,rbuffer_FLL,frag_size/2/2*sizeof(MULTIFX_FLOATING_T));
         /************ RIGHT ****************/
-       if (p_param2vary_R!=NULL)
-       {
-           ret=OSC_trigger(osc_R,p_param2vary_R,param2vary_idxR,len_frame);
-         STRAIGHT_tRETURN(ret);
-       }
-       ret=FX_process(right_chain);
+//       if (p_param2vary_R!=NULL)
+//       {
+//           ret=OSC_trigger(osc_R,p_param2vary_R,param2vary_idxR,len_frame);
+//         STRAIGHT_tRETURN(ret);
+//       }
+       ret=FX_process(right_chain,0);
        STRAIGHT_tRETURN(ret);
         ret=FX_bufcpy(right_chain,wbuffer_FLR);
         STRAIGHT_tRETURN(ret);
