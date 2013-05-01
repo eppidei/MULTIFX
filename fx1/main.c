@@ -62,13 +62,12 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
     int width = 80, height = 50;
     int chos_indx[N_EFFECTS]={0,0};
     FX_T* p_FX[N_EFFECTS] ={NULL,NULL};
-    //OSCILLATOR_T* p_osc[N_EFFECTS] ={NULL,NULL};
     char c;
     enum SM_UI_states states=INIT;
     float prm = 0;
     int upl = 0;
      /*************MOOG PARAMETERS*/
-    //FX_T *moog=NULL;
+
     MULTIFX_FLOATING_T moog_st_prm = rate;
     MULTIFX_UINT32_T moog_n_st_prm = 1;
     MULTIFX_FLOATING_T Fc = 5000;
@@ -80,19 +79,16 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
     MULTIFX_UINT32_T moog_state_length = MOOG_FILTER_ORDER;
     static MULTIFX_FLOATING_T moog_init_state[MOOG_FILTER_ORDER];//={0,0,0,0,0};
        /***********MOOG OSC PARAMETERS****************/
-    //OSCILLATOR_T *sin_osc=NULL;
+
     MULTIFX_UINT16_T osc_enabled[MOOG_N_TV_PARAMS]={ENABLE,DISABLE};
     MULTIFX_FLOATING_T l_lim[MOOG_N_TV_PARAMS] = {700,0.2};
    MULTIFX_FLOATING_T h_lim[MOOG_N_TV_PARAMS] = {3000,3.9};
     MULTIFX_FLOATING_T osc_f[MOOG_N_TV_PARAMS] = {1,1};
     MULTIFX_FLOATING_T ph_off[MOOG_N_TV_PARAMS] = {0,0};
- //   MULTIFX_INT32_T (osc_impl)[MOOG_N_TV_PARAMS]= {oscillator,oscillator};
-//    MULTIFX_FLOATING_T *prm_2_vary[N_EFFECTS]={NULL,NULL};
-//    MULTIFX_UINT32_T n_tv_pm[N_EFFECTS] = {0,0};
-//    MULTIFX_UINT32_T len_frame = 0;
+ MULTIFX_P_OSC_FUNC_T osc_imp[MOOG_N_TV_PARAMS]= {oscillator,oscillator};
 
       /*********SIN SRC PARAMETERS******/
-    //FX_T *sin_src=NULL;
+
     MULTIFX_FLOATING_T f_sy = 1000;
     MULTIFX_FLOATING_T f_sa = rate;
     MULTIFX_FLOATING_T ph_of = 0;
@@ -183,17 +179,9 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
                                         STRAIGHT_RETURN(ret);
                                         /*********OSCILLATOR CONFIGURATION****************/
                                         ret = FX_osc_config(p_FX[i],osc_enabled,l_lim, h_lim,rate,osc_f,ph_off);
-                                        STRAIGHT_RETURN(ret);
-//                                        ret=FX_get_timevarying_params (p_FX[i], &prm_2_vary[i],&n_tv_pm[i], &len_frame);
-//                                        STRAIGHT_RETURN(ret);
-                                        ret = FX_osc_implementation (p_FX[i], 0,&oscillator);
+                                        ret = FX_osc_implementation (p_FX[i], osc_imp);
                                          STRAIGHT_RETURN(ret);
-                                       // p_osc[i]=OSC_init();
-                                        //ALLOCATION_CHECK(p_osc[i]);
-//                                        ret=OSC_configure (p_osc[i],l_lim, h_lim,rate,osc_f ,0);
-//                                        STRAIGHT_RETURN(ret);
-//                                        ret=OSC_set_implementation(p_osc[i],&oscillator);
-//                                        STRAIGHT_RETURN(ret);
+
                                     }
                                     else if (chos_indx[i]==1) //sin_test
                                     {
@@ -212,13 +200,6 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
 
                                 thread_arg.p_left=p_FX[0];
                                 thread_arg.p_right=p_FX[1];
-//                                thread_arg.p_oscL = p_osc[0];
-//                                thread_arg.p_oscR = p_osc[1];
-//                                thread_arg.p_param2vary_L=prm_2_vary[0];
-//                                thread_arg.param2vary_idxL=0;
-//                                thread_arg.p_param2vary_R=prm_2_vary[1];
-//                                thread_arg.param2vary_idxR=0;
-                              //  thread_arg.l_frame=len_frame;
 
                                 states = PROCESS;
                                 break;

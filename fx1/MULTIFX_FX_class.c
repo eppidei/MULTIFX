@@ -13,7 +13,8 @@ MULTIFX_FLOATING_T sample_rate;
 MULTIFX_FLOATING_T freq;
 MULTIFX_FLOATING_T *tv_parameter;
 MULTIFX_FLOATING_T *oscillator_state;
-MULTIFX_API_RET (*var_param_func)(MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_UINT32_T,MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T*);//(MULTIFX_FLOATING_T f_samp, MULTIFX_FLOATING_T f_synth, MULTIFX_UINT32_T len_frame, MULTIFX_FLOATING_T *out_frame, MULTIFX_FLOATING_T phase_offset, MULTIFX_FLOATING_T amp,MULTIFX_FLOATING_T* old_phase)
+//MULTIFX_API_RET (*var_param_func)(MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_UINT32_T,MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T*);//(MULTIFX_FLOATING_T f_samp, MULTIFX_FLOATING_T f_synth, MULTIFX_UINT32_T len_frame, MULTIFX_FLOATING_T *out_frame, MULTIFX_FLOATING_T phase_offset, MULTIFX_FLOATING_T amp,MULTIFX_FLOATING_T* old_phase)
+MULTIFX_P_OSC_FUNC_T  var_param_func;
 };
 
 struct FX_S {
@@ -28,7 +29,8 @@ MULTIFX_FLOATING_T *fx_out_buf;
 MULTIFX_UINT32_T len_float_buff;
 MULTIFX_FLOATING_T *fx_state;
 MULTIFX_UINT32_T    state_len;
-MULTIFX_API_RET (*processing_func)(MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*,MULTIFX_UINT32_T);//param,timevarparam,inframe,outframe,state,len_frame
+MULTIFX_P_PROC_FUNC_T processing_func;//
+//MULTIFX_API_RET (*processing_func)(MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*,MULTIFX_UINT32_T);//param,timevarparam,inframe,outframe,state,len_frame
 OSCILLATOR_T **array_osc;
 };
 //pfroc *static_params,*buffin,*buffout,bufflen
@@ -258,10 +260,16 @@ MULTIFX_API_RET FX_osc_config(FX_T* p_FX,MULTIFX_UINT16_T *enabler,MULTIFX_FLOAT
     return MULTIFX_DEFAULT_RET;
 }
 
-MULTIFX_API_RET FX_osc_implementation (FX_T* p_FX, MULTIFX_UINT32_T osc_idx,MULTIFX_INT32_T (*pfunc)(MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_UINT32_T,MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T*))
+MULTIFX_API_RET FX_osc_implementation (FX_T* p_FX, MULTIFX_P_OSC_FUNC_T *pfunc)
 {
 
-    (p_FX->array_osc[osc_idx])->var_param_func = pfunc;
+    MULTIFX_UINT32_T i = 0;
+
+    for (i=0;i<p_FX->n_time_varying_params;i++)
+    {
+        (p_FX->array_osc[i])->var_param_func = pfunc[i];
+    }
+
     return MULTIFX_DEFAULT_RET;
 }
 
@@ -350,7 +358,7 @@ MULTIFX_API_RET FX_get_timevarying_params (FX_T* p_FX, MULTIFX_FLOATING_T** p_tv
     return MULTIFX_DEFAULT_RET;
 }
 
-MULTIFX_API_RET FX_set_implementation (FX_T* p_FX, MULTIFX_INT32_T (*pfunc)(MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*,MULTIFX_UINT32_T))
+MULTIFX_API_RET FX_set_implementation (FX_T* p_FX, MULTIFX_P_PROC_FUNC_T pfunc)
 {
 
     p_FX -> processing_func=pfunc;
@@ -359,7 +367,7 @@ MULTIFX_API_RET FX_set_implementation (FX_T* p_FX, MULTIFX_INT32_T (*pfunc)(MULT
 }
 
 
-MULTIFX_API_RET FX_process(FX_T* p_FX,MULTIFX_UINT32_T param_idx)
+MULTIFX_API_RET FX_process(FX_T* p_FX)
 {
     MULTIFX_API_RET ret = 0,i=0;
     OSCILLATOR_T * p_tmp=NULL;
@@ -370,7 +378,7 @@ MULTIFX_API_RET FX_process(FX_T* p_FX,MULTIFX_UINT32_T param_idx)
         p_tmp=(p_FX->array_osc[i]);
         if (p_tmp->ena == ENABLE)
         {
-             p_tmp->tv_parameter = &(p_FX->time_varying_params[param_idx*p_FX->len_float_buff]);//indirizza il parametro all'interno buffer parametri tempo varianti
+             p_tmp->tv_parameter = &(p_FX->time_varying_params[i*p_FX->len_float_buff]);//indirizza il parametro all'interno buffer parametri tempo varianti
 
              ret = (p_tmp->var_param_func)(p_tmp->sample_rate,p_tmp->freq,p_FX->len_float_buff,p_tmp->tv_parameter,p_tmp->phase_offset, p_tmp->amp,p_tmp->bias,p_tmp->oscillator_state);
         }
