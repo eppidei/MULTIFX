@@ -21,11 +21,16 @@ typedef double MULTIFX_FLOATING_T;
 typedef float MULTIFX_FLOATING_T;
 #endif
 #endif
+typedef MULTIFX_INT32_T MULTIFX_API_RET ;
+
 
 /**************FX CLASS*******************/
 typedef struct FX_S FX_T;
 
-/**************OSCILLATOR CLASS*******************/
+typedef MULTIFX_API_RET (* MULTIFX_P_OSC_FUNC_T)(MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_UINT32_T,MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T*);
+
+typedef MULTIFX_API_RET (*MULTIFX_P_PROC_FUNC_T)(MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*,MULTIFX_UINT32_T);
+
 typedef struct OSCILLATOR_S OSCILLATOR_T ;
 
 /**************UI CLASS*******************/
@@ -38,7 +43,7 @@ typedef  struct ncurses_UI_S ncurses_UI_T;
 //enum commands {NOTHING2DO,FX_INIT,FX_RELEASE,FX_CONFIGURE};
 /*****************************************/
 
-typedef MULTIFX_INT32_T MULTIFX_API_RET ;
+
 
 typedef struct MULTIFX_targs_S MULTIFX_targs_T;
 
