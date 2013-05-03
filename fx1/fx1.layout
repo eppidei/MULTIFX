@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="MULTIFX_FX_class.c" open="1" top="1" tabpos="2">
-		<Cursor position="8843" topLine="0" />
+	<File name="MULTIFX_FX_class.c" open="1" top="0" tabpos="2">
+		<Cursor position="9210" topLine="156" />
 	</File>
-	<File name="MULTIFX_FX_class.h" open="1" top="0" tabpos="11">
-		<Cursor position="1527" topLine="0" />
+	<File name="MULTIFX_FX_class.h" open="1" top="0" tabpos="3">
+		<Cursor position="323" topLine="0" />
 	</File>
-	<File name="MULTIFX_FX_library.c" open="1" top="0" tabpos="10">
+	<File name="MULTIFX_FX_library.c" open="1" top="0" tabpos="6">
 		<Cursor position="1173" topLine="9" />
 	</File>
 	<File name="MULTIFX_FX_library.h" open="0" top="0" tabpos="13">
 		<Cursor position="180" topLine="0" />
 	</File>
-	<File name="MULTIFX_FX_library_utils.c" open="1" top="0" tabpos="9">
+	<File name="MULTIFX_FX_library_utils.c" open="1" top="0" tabpos="5">
 		<Cursor position="1556" topLine="35" />
 	</File>
-	<File name="MULTIFX_FX_library_utils.h" open="1" top="0" tabpos="12">
+	<File name="MULTIFX_FX_library_utils.h" open="1" top="0" tabpos="7">
 		<Cursor position="511" topLine="0" />
 	</File>
-	<File name="MULTIFX_defines.h" open="1" top="0" tabpos="6">
-		<Cursor position="855" topLine="0" />
+	<File name="MULTIFX_defines.h" open="1" top="0" tabpos="11">
+		<Cursor position="1421" topLine="1" />
 	</File>
-	<File name="MULTIFX_errors.h" open="1" top="0" tabpos="4">
+	<File name="MULTIFX_errors.h" open="0" top="0" tabpos="4">
 		<Cursor position="1514" topLine="0" />
 	</File>
 	<File name="MULTIFX_oss_conf.c" open="0" top="0" tabpos="18">
@@ -43,22 +43,22 @@
 	<File name="MULTIFX_oss_utils.h" open="0" top="0" tabpos="14">
 		<Cursor position="60" topLine="0" />
 	</File>
-	<File name="MULTIFX_threads.c" open="1" top="0" tabpos="5">
-		<Cursor position="5434" topLine="30" />
+	<File name="MULTIFX_threads.c" open="1" top="0" tabpos="9">
+		<Cursor position="1949" topLine="35" />
 	</File>
-	<File name="MULTIFX_threads.h" open="0" top="0" tabpos="0">
+	<File name="MULTIFX_threads.h" open="1" top="0" tabpos="8">
 		<Cursor position="101" topLine="0" />
 	</File>
 	<File name="MULTIFX_typedef.h" open="1" top="0" tabpos="1">
-		<Cursor position="1936" topLine="20" />
+		<Cursor position="1214" topLine="0" />
 	</File>
-	<File name="main.c" open="1" top="0" tabpos="3">
-		<Cursor position="3399" topLine="65" />
+	<File name="main.c" open="1" top="1" tabpos="4">
+		<Cursor position="11453" topLine="189" />
 	</File>
-	<File name="ncurses_UI_class.c" open="1" top="0" tabpos="8">
+	<File name="ncurses_UI_class.c" open="0" top="0" tabpos="8">
 		<Cursor position="3086" topLine="129" />
 	</File>
-	<File name="ncurses_UI_class.h" open="1" top="0" tabpos="7">
+	<File name="ncurses_UI_class.h" open="0" top="0" tabpos="7">
 		<Cursor position="87" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

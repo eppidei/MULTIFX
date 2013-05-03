@@ -68,11 +68,11 @@
 	<MULTIFX_typedef.h>
 	<soundcard.h>
 
-1367450066 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_typedef.h
+1367524269 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_typedef.h
 	<stdint.h>
 	<MULTIFX_defines.h>
 
-1367433528 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_defines.h
+1367454041 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_defines.h
 
 1367170992 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_errors.h
 
@@ -99,7 +99,7 @@
 1366414535 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_oss_utils.h
 	<MULTIFX_typedef.h>
 
-1367451369 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/main.c
+1367457401 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/main.c
 	<MULTIFX_errors.h>
 	<MULTIFX_oss_std_cfg.h>
 	<MULTIFX_FX_class.h>
@@ -128,7 +128,7 @@
 1366416292 /home/leonardo/MULTIFX_wcpy/trunk/fx1/FX_class.h
 	<MULTIFX_typedef.h>
 
-1367451924 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_class.c
+1367453130 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_class.c
 	<MULTIFX_FX_class.h>
 	<stdlib.h>
 	<stdio.h>
@@ -136,7 +136,7 @@
 	<string.h>
 	<MULTIFX_errors.h>
 
-1367451923 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_class.h
+1367453068 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_class.h
 	<MULTIFX_typedef.h>
 
 1366811988 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_FX_library_utils.c
@@ -165,10 +165,10 @@
 1367151366 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_OSCILLATOR_class.h
 	<MULTIFX_typedef.h>
 
-1367151887 /home/leonardo/MULTIFX_wcpy/trunk/fx1/ncurses_UI_class.h
+1367519886 /home/leonardo/MULTIFX_wcpy/trunk/fx1/ncurses_UI_class.h
 	<MULTIFX_typedef.h>
 
-1367104418 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/ncurses_UI_class.c
+1367521183 source:/home/leonardo/MULTIFX_wcpy/trunk/fx1/ncurses_UI_class.c
 	<ncurses_UI_class.h>
 	<ncurses.h>
 	<stdlib.h>
