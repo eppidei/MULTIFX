@@ -42,7 +42,9 @@
 /*******************MOOG*****************************/
 #define MOOG_N_TV_PARAMS (2)
 #define MOOG_FILTER_ORDER (5)
-
+/***************SINSRC******************************/
+#define SINSRC_N_STATIC_PARAMS  (4)
+#define SINSRC_STATE_LEN  (1)
 #endif
 
 

@@ -56,11 +56,14 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
      MULTIFX_targs_T thread_arg;
      FX_T* param_ex=NULL;
      /******** CLI **************/
-    ncurses_UI_T* uiL=NULL, *uiR=NULL, *ui3=NULL;
+    ncurses_UI_T* uiL=NULL, *uiR=NULL, *uiL2=NULL,*uiL3=NULL,*ui=NULL;
+    char ch_sel[MAX_FX_MENU][MAX_CHAR_LEN]={"LEFT","RIGHT","STOP"};
     char items[MAX_FX_MENU][MAX_CHAR_LEN]={"moog","sin_test","empty"};
     char option_menu[MAX_FX_MENU*MAX_FX_OPTIONS][MAX_CHAR_LEN]={"freq","k","empty","freq","amp","offset"};
     int width = 80, height = 50;
-    int chos_indx[N_EFFECTS]={0,0};
+    int chos_fx_per_ch[N_EFFECTS]={0,0};
+    int chos_param[N_EFFECTS]={0,0};
+    int selection=0,ch_idx=0;
     FX_T* p_FX[N_EFFECTS] ={NULL,NULL};
     char c;
     enum SM_UI_states states=INIT;
@@ -78,6 +81,7 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
     MULTIFX_UINT32_T moog_n_tv_prm = MOOG_N_TV_PARAMS;
     MULTIFX_UINT32_T moog_state_length = MOOG_FILTER_ORDER;
     static MULTIFX_FLOATING_T moog_init_state[MOOG_FILTER_ORDER];//={0,0,0,0,0};
+    MULTIFX_P_PROC_FUNC_T p_moog_fx_func =moog_filter;
        /***********MOOG OSC PARAMETERS****************/
 
     MULTIFX_UINT16_T osc_enabled[MOOG_N_TV_PARAMS]={ENABLE,DISABLE};
@@ -93,17 +97,18 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
     MULTIFX_FLOATING_T f_sa = rate;
     MULTIFX_FLOATING_T ph_of = 0;
     MULTIFX_FLOATING_T amp = 0.1;
-    MULTIFX_UINT32_T n_st_prm = 4;
+    //MULTIFX_UINT32_T n_st_prm = 4;
     MULTIFX_UINT32_T n_vr_prm = 0;
-    MULTIFX_UINT32_T state_length = 1;
-    static MULTIFX_FLOATING_T sin_static_param[4];
+    MULTIFX_UINT32_T sinsrc_state_leng = SINSRC_STATE_LEN;
+    static MULTIFX_FLOATING_T sin_static_param[SINSRC_N_STATIC_PARAMS];
+    MULTIFX_UINT32_T n_sinsrc_statprm = SINSRC_N_STATIC_PARAMS;
     sin_static_param[0]=f_sy;
      sin_static_param[1]=f_sa;
       sin_static_param[2]=ph_of;
        sin_static_param[3]=amp;
     MULTIFX_FLOATING_T sin_init_state=0;
     MULTIFX_FLOATING_T *p_out_buff;
-
+MULTIFX_P_PROC_FUNC_T p_sinsrc_fx_func=test_tone;
 
 
     ret = open_stereo_full_duplex_device (devname , &fd_dev,MAX_BUFF_DIM,
@@ -134,48 +139,48 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
     {
         switch(states)
         {
-//            case INIT :
-//                                uiL = UI_init (MAX_FX_MENU, &items[0][0],height,width,  0, 0,4,5,0,0,"ATTACH FX LEFT CHANNEL",8,2);
-//                                uiR = UI_init (MAX_FX_MENU, &items[0][0],height,width,  0, 0,4,5,0,0,"ATTACH FX RIGHT CHANNEL",8,2);
-//                                states = ATTACH_LEFT;
-//                                break;
-//            case ATTACH_LEFT :
-//                                UI_print_menu(uiL, 1);
-//                                UI_menu_selection(uiL, &chos_indx[0]);
-//                                if (chos_indx[0]>=0)
-//                                {
-//                                    states = ATTACH_RIGHT;
-//                                }
-//
-//                                break;
-//            case ATTACH_RIGHT :
-//                                UI_print_menu(uiR, 1);
-//                                UI_menu_selection(uiR, &chos_indx[1]);
-//                              if ( (chos_indx[1])>=0)
-//                                {
-//                                  states = INIZ_SEQUENCE;
-//                                }
-//
-//                                UI_release(uiL);
-//                                UI_release(uiR);
-//
-//                                break;
-            case INIT : chos_indx[0]=1;
-                        chos_indx[1]=0;
+            case INIT :         UI_ncurses_on();
+                                uiL = UI_init (MAX_FX_MENU, &items[0][0],height,width,  0, 0,4,5,0,0,"ATTACH FX LEFT CHANNEL",8,2);
+                                uiR = UI_init (MAX_FX_MENU, &items[0][0],height,width,  0, 0,4,5,0,0,"ATTACH FX RIGHT CHANNEL",8,2);
+                                states = ATTACH_LEFT;
+                                break;
+            case ATTACH_LEFT :
+                                UI_print_menu(uiL, 1);
+                                UI_menu_selection(uiL, &chos_fx_per_ch[0]);
+                                if (chos_fx_per_ch[0]>=0)
+                                {
+                                    states = ATTACH_RIGHT;
+                                }
+
+                                break;
+            case ATTACH_RIGHT :
+                                UI_print_menu(uiR, 1);
+                                UI_menu_selection(uiR, &chos_fx_per_ch[1]);
+                              if ( (chos_fx_per_ch[1])>=0)
+                                {
+                                  states = INIZ_SEQUENCE;
+                                }
+
+                                UI_release(uiL);
+                                UI_release(uiR);
+
+                                break;
+            case INIZ_SEQUENCE : //chos_fx_per_ch[0]=1;
+                                //chos_fx_per_ch[1]=0;
                                 for (i=0;i<N_EFFECTS;i++)
                                 {
-                                    if (chos_indx[i]==0) //moog
+                                    if (chos_fx_per_ch[i]==0) //moog
                                     {
                                           /***** MOOG INITIALIZATION ************/
-                                         p_FX[i]=FX_init(n_bit,stereo_mode,frag_size,moog_n_st_prm,moog_n_tv_prm,moog_state_length,rbuffer_FLL,(MULTIFX_CHAR_T*)"moog",4);
+                                         p_FX[i]=FX_init(n_bit,stereo_mode,frag_size,moog_n_st_prm,moog_n_tv_prm,moog_state_length,rbuffer_FLL,(MULTIFX_CHAR_T*)"moog");
                                         ALLOCATION_CHECK(p_FX[i]);
-                                        ret=FX_set_static_params (p_FX[i], &moog_st_prm,1);
+                                        ret=FX_set_static_params (p_FX[i], &moog_st_prm,moog_n_st_prm);
                                         STRAIGHT_RETURN(ret);
-                                        ret=FX_set_state (p_FX[i], moog_init_state,5);
+                                        ret=FX_set_state (p_FX[i], moog_init_state,moog_state_length);
                                         STRAIGHT_RETURN(ret);
                                         ret=FX_init_timevarying_params (p_FX[i], moog_tv_prm,moog_n_tv_prm);
                                         STRAIGHT_RETURN(ret);
-                                        ret=FX_set_implementation (p_FX[i], &moog_filter);
+                                        ret=FX_set_implementation (p_FX[i], p_moog_fx_func);
                                         STRAIGHT_RETURN(ret);
                                         /*********OSCILLATOR CONFIGURATION****************/
                                         ret = FX_osc_config(p_FX[i],osc_enabled,l_lim, h_lim,rate,osc_f,ph_off);
@@ -183,17 +188,17 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
                                          STRAIGHT_RETURN(ret);
 
                                     }
-                                    else if (chos_indx[i]==1) //sin_test
+                                    else if (chos_fx_per_ch[i]==1) //sin_test
                                     {
                                           /***** TEST TONE INITIALIZATION ************/
 
-                                           p_FX[i]=FX_init(n_bit,stereo_mode,frag_size,n_st_prm,n_vr_prm,state_length,NULL,(MULTIFX_CHAR_T*)"sin_src",6);
+                                           p_FX[i]=FX_init(n_bit,stereo_mode,frag_size,n_sinsrc_statprm,n_vr_prm,sinsrc_state_leng,NULL,(MULTIFX_CHAR_T*)"sin_src");
                                            ALLOCATION_CHECK(p_FX[i]);
-                                           ret= FX_set_static_params (p_FX[i], sin_static_param,4);
+                                           ret= FX_set_static_params (p_FX[i], sin_static_param,n_sinsrc_statprm);
                                            STRAIGHT_RETURN(ret);
                                            ret=FX_set_state (p_FX[i], &sin_init_state,1);
                                            STRAIGHT_RETURN(ret);
-                                          ret=FX_set_implementation (p_FX[i], &test_tone);
+                                          ret=FX_set_implementation (p_FX[i], p_sinsrc_fx_func);
                                           STRAIGHT_RETURN(ret);
                                     }
                                 }
@@ -205,38 +210,69 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
                                 break;
 
             case PROCESS   : tret = pthread_create(&threads, NULL, ProcMainLoop, (void *)&thread_arg);
-                                  states = CHANGE_PARAMS;
+                                    ui = UI_init (3, &ch_sel[0][0],height,width,  0, 0,4,5,0,0,"CHOOSE CHANNEL FOR PARAMETER CHANGING",8,2);
+                                  states = CHOOSE_CHANNEL;
                                 break;
-            case CHANGE_PARAMS : //sleep(5);
-                                //thread_arg.enable_mainloop = DISABLE;
-                                // goto end;
-                                 break;
-//            case CHANGE_PARAMS : ui1 = UI_init (1, &items[chos_indx[0]][0],height,width,  0, 0,4,5,0,0,"CHANGE PARAMS LEFT CHANNEL",8,2);
-//                                ui2 = UI_init (1, &items[chos_indx[1]][0],height,width,  0, 0,4,5,0,0,"CHANGE PARAMS RIGHT CHANNEL",8,2);
-//                                states= LEV1_L;
-//                                break;
-//
-//            case LEV1_L  : ui2 = UI_init (MAX_FX_OPTIONS ,&option_menu[chos_indx[0]*MAX_FX_OPTIONS][0],height,width,  0, 0,4,5,0,0,&(items[chos_indx[0]][0]),8,2);
-//                         UI_print_menu(ui2, 1);
-//                         UI_menu_selection(ui2, &chos_indx);
-//                         if (chos_indx<0)
-//                         {
-//                               UI_release(ui2);
-//                               states = SHOW_MAIN;
-//                         }
-//                         else
-//                         {
-//                             states = LEV2;
-//                         }
-//                         break;
-//            case LEV2_L   : ui3 = UI_init (0 ,"",height,width,  0, 0,4,5,0,0,"Parameter",8,2);
-//                            UI_param_change(ui3, &prm,.5, &upl);
-//                            if (upl==1)
-//                            {
-//                                UI_release(ui3);
-//                                states=LEV1;
-//                            }
-//                            break;
+            case CHOOSE_CHANNEL :
+                                     UI_print_menu(ui, 1);
+                                    UI_menu_selection(ui, &ch_idx);
+                                    if (ch_idx<0)
+                                    {
+                                        states= CHOOSE_CHANNEL;
+                                    }
+                                    else if (ch_idx==0)
+                                    {
+                                        states= CHANGE_PARAMS;
+                                    }
+                                     else if (ch_idx==1)
+                                     {
+                                         states= CHANGE_PARAMS;
+                                     }
+                                     else if (ch_idx==2)
+                                     {
+                                         thread_arg.enable_mainloop = DISABLE;
+                                         UI_release(ui);
+                                         goto end;
+                                     }
+
+                                break;
+
+            case CHANGE_PARAMS : uiL = UI_init (1, &items[chos_fx_per_ch[ch_idx]][0],height,width,  0, 0,4,5,0,0,"CHANGE PARAMS LEFT CHANNEL",8,2);
+                                UI_print_menu(uiL, 1);
+                                UI_menu_selection(uiL, &selection);
+                                if (selection<0)
+                                {
+                                    states= CHOOSE_CHANNEL;
+                                    UI_release(uiL);
+                                }
+                                else
+                                {
+                                    states= LEV1;
+                                }
+
+                                break;
+
+            case LEV1  :uiL2 = UI_init (MAX_FX_OPTIONS ,&option_menu[chos_fx_per_ch[ch_idx]*MAX_FX_OPTIONS][0],height,width,  0, 0,4,5,0,0,&(items[chos_fx_per_ch[ch_idx]][0]),8,2);
+                         UI_print_menu(uiL2, 1);
+                         UI_menu_selection(uiL2, &chos_param[ch_idx]);
+                         if (chos_param[ch_idx]<0)
+                         {
+                               UI_release(uiL2);
+                               states = CHANGE_PARAMS;
+                         }
+                         else
+                         {
+                             states = LEV2;
+                         }
+                         break;
+            case LEV2   : uiL3 = UI_init (0 ,"",height,width,  0, 0,4,5,0,0,&option_menu[chos_fx_per_ch[ch_idx]*MAX_FX_OPTIONS+chos_param[ch_idx]][0],8,2);
+                            UI_param_change(uiL3, &prm,.5, &upl);
+                            if (upl==1)
+                            {
+                                UI_release(uiL3);
+                                states=LEV1;
+                            }
+                            break;
             default     : break;
 
         }
@@ -246,7 +282,7 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
 
 
 end :
-
+UI_ncurses_off();
 
 tret =pthread_join(threads, (void **)&texit);
 if (tret==0)
@@ -254,17 +290,8 @@ if (tret==0)
     printf("pthread joined successuflly with exit value?????????? %d\n",texit);
 }
 
- // UI_release(ui);
     FX_release(param_ex);
-//    if (p_osc[0]!=NULL)
-//    {
-//         OSC_release(p_osc[0]);
-//    }
-//
-//    if (p_osc[1]!=NULL)
-//    {
-//         OSC_release(p_osc[1]);
-//    }
+
     if(p_FX[0]!=NULL)
     {
          FX_release(p_FX[0]);

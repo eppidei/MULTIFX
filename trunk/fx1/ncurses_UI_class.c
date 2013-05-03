@@ -23,6 +23,21 @@ struct ncurses_UI_S {
     int     print_state_y;
 };
 
+int UI_ncurses_on()
+{
+     initscr();
+    clear();
+    noecho();
+    cbreak();
+
+    return 0;
+}
+int UI_ncurses_off()
+{
+     endwin();
+
+    return 0;
+}
 
 ncurses_UI_T* UI_init (int n_items, char * items, int w_h, int w_w, int w_x, int w_y,int m_x, int m_y, int p_x, int p_y, char * title, int t_x, int t_y)
 {
@@ -32,10 +47,7 @@ ncurses_UI_T* UI_init (int n_items, char * items, int w_h, int w_w, int w_x, int
 
     if (pthis!=NULL)
     {
-        initscr();
-        clear();
-        noecho();
-        cbreak();
+
 
          pthis->title_x    = t_x;
          pthis->title_y    = t_y;
@@ -151,10 +163,6 @@ int  UI_menu_selection(ncurses_UI_T* p_ui, int *chosen_idx)
                 *chosen_idx = -1;
                 wrefresh(p_ui->menu_win);
                 return 0;
-            case 85:
-                *chosen_idx = -1;
-                wrefresh(p_ui->menu_win);
-                return 0;
 			default:
                 new_printy = p_ui->print_state_y +2;
 				mvwprintw(p_ui->menu_win,new_printy,1,"Character pressed is = %3d Hopefully it can be printed as '%c'", c, c);
@@ -177,7 +185,7 @@ int UI_param_change(ncurses_UI_T* p_ui, float *param, float delta, int *up_level
     enum { plus = 112, minus = 109, out = 117};
 
 
-    mvwprintw(p_ui->menu_win,new_printy,1,"PARAMETER",*param);
+    mvwprintw(p_ui->menu_win,new_printy,1,p_ui->menu_title,*param);
     wrefresh(p_ui->menu_win);
     p_ui->print_state_y = new_printy;
     while (1)

@@ -35,7 +35,7 @@ OSCILLATOR_T **array_osc;
 };
 //pfroc *static_params,*buffin,*buffout,bufflen
 FX_T* FX_init( MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode, MULTIFX_UINT32_T fragment_size, MULTIFX_UINT32_T n_static_params,
-              MULTIFX_UINT32_T  n_time_varying_params,MULTIFX_UINT32_T state_length,MULTIFX_FLOATING_T* in_buff, MULTIFX_CHAR_T* id,MULTIFX_UINT32_T id_len)
+              MULTIFX_UINT32_T  n_time_varying_params,MULTIFX_UINT32_T state_length,MULTIFX_FLOATING_T* in_buff, MULTIFX_CHAR_T* id)
 {
     FX_T* pthis = calloc(1,sizeof(FX_T));
     MULTIFX_UINT32_T  len_buff_nbit=0,len_buff=0,i=0;
@@ -68,9 +68,9 @@ FX_T* FX_init( MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode, MULTIFX_UINT
         }
 
         /*********************Memory allocation and initialization ****************************/
-        pthis ->id_len = id_len;
-        pthis -> fx_id = calloc(id_len+1,sizeof(MULTIFX_CHAR_T));
-        strncpy((char*)pthis -> fx_id,(char*)id,id_len*sizeof(MULTIFX_CHAR_T));
+        pthis ->id_len = strlen((char *)id);//id_len;
+        pthis -> fx_id = calloc(pthis ->id_len+1,sizeof(MULTIFX_CHAR_T));
+        strncpy((char*)pthis -> fx_id,(char*)id,pthis ->id_len*sizeof(MULTIFX_CHAR_T));
 
 
         pthis -> n_static_params      = n_static_params;
@@ -150,8 +150,11 @@ FX_T* FX_init( MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode, MULTIFX_UINT
 FX_T* FX_param_exchange_init (MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode)
 {
     FX_T *pthis = NULL;
+    MULTIFX_UINT32_T fragsize=0,n_time_varying_params=0,state_length=0;
+    MULTIFX_FLOATING_T* in_buff=NULL;
+    MULTIFX_CHAR_T* id="Parameter exchange structure";
     /** static params double buffered****/
-    pthis= FX_init( n_bit,stereo_mode, 0, 2*MAX_STATIC_PARAMS,0,0,NULL, (MULTIFX_CHAR_T*)"",MAX_FX_IDLEN);
+    pthis= FX_init( n_bit,stereo_mode, fragsize, 2*MAX_STATIC_PARAMS,n_time_varying_params,state_length,in_buff, id);
 
     return pthis;
 }
