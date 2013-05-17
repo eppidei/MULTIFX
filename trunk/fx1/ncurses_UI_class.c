@@ -181,7 +181,7 @@ int  UI_menu_selection(ncurses_UI_T* p_ui, int *chosen_idx)
 int UI_param_change(ncurses_UI_T* p_ui, float *param, float delta, int *up_level)
 {
     int c;
-    int new_printy = p_ui->print_state_y +1;
+    int new_printy = p_ui->print_state_y ;
     enum { plus = 112, minus = 109, out = 117};
 
 
@@ -198,13 +198,13 @@ int UI_param_change(ncurses_UI_T* p_ui, float *param, float delta, int *up_level
                         new_printy =  p_ui->print_state_y +3;
                         mvwprintw(p_ui->menu_win,new_printy,1,"%f",*param);
                         wrefresh(p_ui->menu_win);
-                        break;
+                        return 0;
 
             case minus :  *param -= delta;
                         new_printy =  p_ui->print_state_y +3;
                         mvwprintw(p_ui->menu_win,new_printy,1,"%f",*param);
                         wrefresh(p_ui->menu_win);
-                        break;
+                        return 0;
             case out :  *up_level = 1;
                         return 0;
             default  : new_printy =  p_ui->print_state_y +1;
@@ -214,6 +214,6 @@ int UI_param_change(ncurses_UI_T* p_ui, float *param, float delta, int *up_level
 
         }
     }
-    p_ui->print_state_y=new_printy;
+   // p_ui->print_state_y=new_printy;
     return 0;
 }

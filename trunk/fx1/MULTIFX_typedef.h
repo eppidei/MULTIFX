@@ -3,6 +3,7 @@
 //#include <MULTIFX_FX_class.h>
 #include <stdint.h>
 #include <MULTIFX_defines.h>
+#include <stdio.h>
 
 
 
@@ -61,10 +62,13 @@ struct MULTIFX_targs_S
     MULTIFX_FLOATING_T *read_buff_R;
     MULTIFX_FLOATING_T *write_buff_L;
     MULTIFX_FLOATING_T *write_buff_R;
-    FX_T              *params_exchange;
+   // FX_T              *params_exchange;
     MULTIFX_UINT16_T enable_mainloop;
     FX_T *p_left;
+    MULTIFX_UINT16_T *update_flag_L;
     FX_T *p_right;
+    MULTIFX_UINT16_T *update_flag_R;
+    FILE **p_debug;
 //    OSCILLATOR_T *p_oscL;
 //    MULTIFX_FLOATING_T* p_param2vary_L;
 //    MULTIFX_UINT32_T param2vary_idxL;

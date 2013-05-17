@@ -70,6 +70,7 @@ MULTIFX_API_RET oscillator (MULTIFX_FLOATING_T f_samp, MULTIFX_FLOATING_T f_synt
     MULTIFX_UINT32_T i = 0;
     MULTIFX_FLOATING_T normalized_phase = 0.0;
 
+
     for (i=0;i<len_frame;i++)
     {
         normalized_phase = fmod(f_synth/f_samp*(i+1),1)+ *old_phase;

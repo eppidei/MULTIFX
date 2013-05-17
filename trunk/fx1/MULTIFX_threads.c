@@ -8,6 +8,10 @@
 #include <pthread.h>
 #include <MULTIFX_OSCILLATOR_class.h>
 #include <MULTIFX_oss_utils.h>
+#include <semaphore.h>
+#include <stdio.h>
+
+extern sem_t sem;
 
 void *ProcMainLoop(void *threadarg)
 {
@@ -26,13 +30,12 @@ void *ProcMainLoop(void *threadarg)
     MULTIFX_UINT16_T flag           = targuments->enable_mainloop;
     FX_T*             left_chain    = targuments->p_left;
     FX_T*             right_chain    = targuments->p_right;
+    FILE**            debu_file     =targuments->p_debug;
+    MULTIFX_UINT16_T*    up_flag_L    =targuments->update_flag_L;
+    MULTIFX_UINT16_T*    up_flag_R    =targuments->update_flag_R;
 
   /************************************/
-     #ifdef DEBUG
-    FILE *fid_in,*fid_out;
-    fid_in  = fopen("in_samples_stereo.txt","w");
-    fid_out = fopen("out_samples_stereo.txt","w");
-    #endif
+
     MULTIFX_INT32_T rd_len = 0,wr_len=0,loopcount = 0;
 
 
@@ -49,6 +52,30 @@ void *ProcMainLoop(void *threadarg)
         STRAIGHT_tRETURN(ret);
 
 
+
+
+sem_wait(&sem);
+
+if(*up_flag_L==1)
+{
+	ret=FX_static_param_update(left_chain);
+	STRAIGHT_tRETURN(ret);
+	*up_flag_L=0;
+}
+#ifdef DEBUG
+ FX_printf(left_chain,debu_file);
+#endif
+
+ if(*up_flag_R==1)
+ {
+ ret=FX_static_param_update(right_chain);
+ STRAIGHT_tRETURN(ret);
+ *up_flag_R=1;
+ }
+
+
+
+ sem_post(&sem);
 
         /******** Processing ***************/
 
@@ -75,7 +102,7 @@ void *ProcMainLoop(void *threadarg)
         wr_len=write_device_data (fd_dev,wbuffer,frag_size);
         STRAIGHT_tRETURN(wr_len);
 
-        #ifdef DEBUG
+      /*  #ifdef DEBUG
 
         ret = memcmp(rbuffer,wbuffer,sizeof(rbuffer));
         if(ret!=0)
@@ -92,15 +119,12 @@ void *ProcMainLoop(void *threadarg)
             }
         }
 
-        #endif
+        #endif*/
 
         loopcount++;
     }
 
-     #ifdef DEBUG
-    fclose(fid_in);
-    fclose(fid_out);
-    #endif
+
 
 
     pthread_exit(NULL);
