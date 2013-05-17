@@ -21,6 +21,7 @@ struct FX_S {
 MULTIFX_CHAR_T  *fx_id;
 MULTIFX_UINT32_T id_len;
 MULTIFX_FLOATING_T *static_params;
+MULTIFX_FLOATING_T *new_static_params;
 MULTIFX_UINT32_T n_static_params;
 MULTIFX_FLOATING_T *time_varying_params;
 MULTIFX_UINT32_T n_time_varying_params;
@@ -74,12 +75,14 @@ FX_T* FX_init( MULTIFX_UINT16_T n_bit,MULTIFX_UINT16_T stereo_mode, MULTIFX_UINT
 
 
         pthis -> n_static_params      = n_static_params;
-        pthis -> static_params        = calloc(n_static_params,sizeof(MULTIFX_FLOATING_T));
+        pthis -> static_params        = calloc(n_static_params*DOUBLE_BUFF,sizeof(MULTIFX_FLOATING_T));
         if (pthis -> static_params == NULL)
         {
             fprintf(stderr,"\nstatic_params allocation failure\n");
             return NULL;
         }
+
+        pthis -> new_static_params  = &(pthis -> static_params[n_static_params]);
 
         pthis -> n_time_varying_params      = n_time_varying_params;
         pthis -> time_varying_params  = calloc(n_time_varying_params*len_buff,sizeof(MULTIFX_FLOATING_T));
@@ -287,6 +290,7 @@ MULTIFX_API_RET FX_set_static_params (FX_T* p_FX, MULTIFX_FLOATING_T* p_static_p
     else
     {
         memcpy(p_FX->static_params,p_static_params,p_FX->n_static_params*sizeof(MULTIFX_FLOATING_T));
+        memcpy(p_FX->new_static_params,p_static_params,p_FX->n_static_params*sizeof(MULTIFX_FLOATING_T));
     }
 
     return MULTIFX_DEFAULT_RET;
@@ -409,4 +413,32 @@ MULTIFX_API_RET FX_get_out_buff(FX_T* p_FX,MULTIFX_FLOATING_T** buff)
     return MULTIFX_DEFAULT_RET;
 
 }
+
+MULTIFX_API_RET FX_static_param_update(FX_T* p_FX)
+{
+    MULTIFX_FLOATING_T *p_tmp;
+
+    p_tmp = p_FX -> new_static_params;
+
+     p_FX -> new_static_params =  p_FX -> static_params;
+
+      p_FX -> static_params = p_tmp;
+
+     return MULTIFX_DEFAULT_RET;
+}
+
+MULTIFX_API_RET FX_set_new_param(FX_T* p_FX,MULTIFX_FLOATING_T new_prm,MULTIFX_UINT32_T fx_idx)
+{
+    p_FX -> new_static_params[fx_idx] = new_prm;
+
+     return MULTIFX_DEFAULT_RET;
+}
+
+MULTIFX_API_RET FX_printf(FX_T* p_FX, FILE** pid)
+{
+	fprintf(*pid,"%x    %f\n",p_FX->static_params,p_FX->static_params[3]);
+
+	return MULTIFX_DEFAULT_RET;
+}
+
 

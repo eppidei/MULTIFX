@@ -22,8 +22,9 @@
 
 #include <ncurses_UI_class.h>
 #include <ncurses.h>
+#include <semaphore.h>
 
-
+sem_t sem;
 
 int main ()
 {
@@ -55,11 +56,13 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
      MULTIFX_INT32_T tret = 0,*texit;
      MULTIFX_targs_T thread_arg;
      FX_T* param_ex=NULL;
+     FILE *dbg_file=NULL;
+     MULTIFX_UINT16_T flag_update_left=0,flag_update_right=0;
      /******** CLI **************/
     ncurses_UI_T* uiL=NULL, *uiR=NULL, *uiL2=NULL,*uiL3=NULL,*ui=NULL;
     char ch_sel[MAX_FX_MENU][MAX_CHAR_LEN]={"LEFT","RIGHT","STOP"};
     char items[MAX_FX_MENU][MAX_CHAR_LEN]={"moog","sin_test","empty"};
-    char option_menu[MAX_FX_MENU*MAX_FX_OPTIONS][MAX_CHAR_LEN]={"freq","k","empty","freq","amp","offset"};
+    char option_menu[MAX_FX_MENU*MAX_FX_OPTIONS][MAX_CHAR_LEN]={"freq","k","empty","empty","freq","rate","offset","amp"};
     int width = 80, height = 50;
     int chos_fx_per_ch[N_EFFECTS]={0,0};
     int chos_param[N_EFFECTS]={0,0};
@@ -67,8 +70,10 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
     FX_T* p_FX[N_EFFECTS] ={NULL,NULL};
     char c;
     enum SM_UI_states states=INIT;
-    float prm = 0;
+    MULTIFX_FLOATING_T prm = 0,prm_tmp = 0;
+    MULTIFX_UINT32_T len_prm=0;
     int upl = 0;
+    MULTIFX_FLOATING_T *p_stat_prm;
      /*************MOOG PARAMETERS*/
 
     MULTIFX_FLOATING_T moog_st_prm = rate;
@@ -96,7 +101,7 @@ static MULTIFX_FLOATING_T wbuffer_FLL[MAX_BUFF_DIM/2/2];
     MULTIFX_FLOATING_T f_sy = 1000;
     MULTIFX_FLOATING_T f_sa = rate;
     MULTIFX_FLOATING_T ph_of = 0;
-    MULTIFX_FLOATING_T amp = 0.1;
+    MULTIFX_FLOATING_T amp = 0.5;
     //MULTIFX_UINT32_T n_st_prm = 4;
     MULTIFX_UINT32_T n_vr_prm = 0;
     MULTIFX_UINT32_T sinsrc_state_leng = SINSRC_STATE_LEN;
@@ -116,7 +121,10 @@ MULTIFX_P_PROC_FUNC_T p_sinsrc_fx_func=test_tone;
                                          rate,&audio_info, &latency_effort);
     STRAIGHT_tRETURN(ret);
 
-   param_ex = FX_param_exchange_init ( n_bit, stereo_mode);
+   //param_ex = FX_param_exchange_init ( n_bit, stereo_mode);
+
+    dbg_file=fopen("/home/leonardo/gres_test.txt","w");
+    ALLOCATION_CHECK(dbg_file);
 
     thread_arg.device_fd    =fd_dev;
 //    thread_arg.sample_rate  =rate;
@@ -129,8 +137,15 @@ MULTIFX_P_PROC_FUNC_T p_sinsrc_fx_func=test_tone;
     thread_arg.read_buff_R  =rbuffer_FLR;
     thread_arg.write_buff_L =wbuffer_FLL;
     thread_arg.write_buff_R =wbuffer_FLR;
-    thread_arg.params_exchange = param_ex;
+   // thread_arg.params_exchange = param_ex;
     thread_arg.enable_mainloop = ENABLE;
+    thread_arg.p_debug=&dbg_file;//
+    thread_arg.update_flag_L= &flag_update_left;
+    thread_arg.update_flag_R= &flag_update_right;
+
+
+
+
 
 
 
@@ -139,6 +154,8 @@ MULTIFX_P_PROC_FUNC_T p_sinsrc_fx_func=test_tone;
     {
         switch(states)
         {
+//        case INIT :p_FX[0]=FX_init(n_bit,stereo_mode,frag_size,moog_n_st_prm,moog_n_tv_prm,moog_state_length,rbuffer_FLL,(MULTIFX_CHAR_T*)"moog");
+//        FX_printf(p_FX[0], &tes);sleep(0.1);break;
             case INIT :         UI_ncurses_on();
                                 uiL = UI_init (MAX_FX_MENU, &items[0][0],height,width,  0, 0,4,5,0,0,"ATTACH FX LEFT CHANNEL",8,2);
                                 uiR = UI_init (MAX_FX_MENU, &items[0][0],height,width,  0, 0,4,5,0,0,"ATTACH FX RIGHT CHANNEL",8,2);
@@ -209,13 +226,15 @@ MULTIFX_P_PROC_FUNC_T p_sinsrc_fx_func=test_tone;
                                 states = PROCESS;
                                 break;
 
-            case PROCESS   : tret = pthread_create(&threads, NULL, ProcMainLoop, (void *)&thread_arg);
+            case PROCESS   : sem_init(&sem,0,1);
+                                tret = pthread_create(&threads, NULL, ProcMainLoop, (void *)&thread_arg);
                                     ui = UI_init (3, &ch_sel[0][0],height,width,  0, 0,4,5,0,0,"CHOOSE CHANNEL FOR PARAMETER CHANGING",8,2);
                                   states = CHOOSE_CHANNEL;
                                 break;
             case CHOOSE_CHANNEL :
                                      UI_print_menu(ui, 1);
                                     UI_menu_selection(ui, &ch_idx);
+
                                     if (ch_idx<0)
                                     {
                                         states= CHOOSE_CHANNEL;
@@ -263,17 +282,46 @@ MULTIFX_P_PROC_FUNC_T p_sinsrc_fx_func=test_tone;
                          else
                          {
                              states = LEV2;
+                             uiL3 = UI_init (0 ,"",height,width,  0, 0,4,5,0,0,&option_menu[chos_fx_per_ch[ch_idx]*MAX_FX_OPTIONS+chos_param[ch_idx]][0],8,2);
+                             FX_get_static_params(p_FX[ch_idx], &p_stat_prm,&len_prm);
+                             prm = p_stat_prm[chos_param[ch_idx]];
+                             //printf("static param %f\n",prm);
                          }
                          break;
-            case LEV2   : uiL3 = UI_init (0 ,"",height,width,  0, 0,4,5,0,0,&option_menu[chos_fx_per_ch[ch_idx]*MAX_FX_OPTIONS+chos_param[ch_idx]][0],8,2);
-                            UI_param_change(uiL3, &prm,.5, &upl);
+            case LEV2   :
+                            UI_param_change(uiL3, &prm,.1, &upl);//esce solo in caso di p o m
+
                             if (upl==1)
                             {
                                 UI_release(uiL3);
                                 states=LEV1;
                             }
+                            else
+                            {
+
+									if (ch_idx==0)
+									{
+#ifdef DEBUG
+										fprintf(dbg_file,"%f\n",prm);
+#endif
+									   FX_set_new_param(thread_arg.p_left,prm,chos_param[ch_idx]);
+									   flag_update_left=1;
+#ifdef DEBUG
+										fprintf(dbg_file,"%u\n",flag_update_left);
+#endif
+
+									}
+									else if (ch_idx==1)
+									{
+									   FX_set_new_param(thread_arg.p_right,prm,chos_param[ch_idx]);
+									   flag_update_right=1;
+									}
+
+
+                            }
                             break;
             default     : break;
+
 
         }
     }
@@ -283,14 +331,15 @@ MULTIFX_P_PROC_FUNC_T p_sinsrc_fx_func=test_tone;
 
 end :
 UI_ncurses_off();
-
+fclose(dbg_file);
+sem_destroy(&sem);
 tret =pthread_join(threads, (void **)&texit);
 if (tret==0)
 {
     printf("pthread joined successuflly with exit value?????????? %d\n",texit);
 }
 
-    FX_release(param_ex);
+   // FX_release(param_ex);
 
     if(p_FX[0]!=NULL)
     {

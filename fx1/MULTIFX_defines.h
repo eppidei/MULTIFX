@@ -34,9 +34,10 @@
 
 
 #define MAX_CHAR_LEN (20+1)
-#define MAX_FX_OPTIONS   (3)
+#define MAX_FX_OPTIONS   (4)
 #define MAX_FX_MENU   (4)
 #define N_EFFECTS  (2)
+#define DOUBLE_BUFF   (2)
 
 
 /*******************MOOG*****************************/
