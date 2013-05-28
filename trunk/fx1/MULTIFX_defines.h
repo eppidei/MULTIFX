@@ -23,28 +23,32 @@
 #undef DEBUG
 
 #define MAX_STATIC_PARAMS (10)
+#define MAX_OSC_PARAMS (10)
 #define MAX_STATE_LEN (20)
 #define MOOG_ORDER (5)
 #define MAX_FX_IDLEN (10+1)
 #define ENABLE (1)
 #define DISABLE (0)
+#define MENU_MAX_CHILDREN (10)
 
 
-#define STD_FX_LIB_CALL MULTIFX_FLOATING_T *params,MULTIFX_FLOATING_T *time_var_params,MULTIFX_FLOATING_T *in_frame, MULTIFX_FLOATING_T *out_frame,MULTIFX_FLOATING_T *state, MULTIFX_UINT32_T frame_len
+
+#define STD_FX_LIB_CALL MULTIFX_FLOATING_T *fixed_params,MULTIFX_FLOATING_T *params,MULTIFX_FLOATING_T *time_var_params,MULTIFX_FLOATING_T *in_frame, MULTIFX_FLOATING_T *out_frame,MULTIFX_FLOATING_T *state, MULTIFX_UINT32_T frame_len
 
 
-#define MAX_CHAR_LEN (20+1)
+#define MAX_CHAR_LEN (32+1)
 #define MAX_FX_OPTIONS   (4)
 #define MAX_FX_MENU   (4)
-#define N_EFFECTS  (2)
+#define N_EFFECTS_X_CH  (1)
 #define DOUBLE_BUFF   (2)
+#define N_CHANNELS (2)
 
 
 /*******************MOOG*****************************/
 #define MOOG_N_TV_PARAMS (2)
 #define MOOG_FILTER_ORDER (5)
 /***************SINSRC******************************/
-#define SINSRC_N_STATIC_PARAMS  (4)
+#define SINSRC_N_STATIC_PARAMS  (3)
 #define SINSRC_STATE_LEN  (1)
 #endif
 
