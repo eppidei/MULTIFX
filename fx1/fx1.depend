@@ -68,11 +68,12 @@
 	<MULTIFX_typedef.h>
 	<soundcard.h>
 
-1367548675 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_typedef.h
+1368761418 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_typedef.h
 	<stdint.h>
 	<MULTIFX_defines.h>
+	<stdio.h>
 
-1368114757 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_defines.h
+1368761640 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_defines.h
 
 1367170992 /home/leonardo/MULTIFX_wcpy/trunk/fx1/MULTIFX_errors.h
 

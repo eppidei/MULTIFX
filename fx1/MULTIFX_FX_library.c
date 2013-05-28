@@ -16,7 +16,7 @@ MULTIFX_API_RET ret = 0;
 MULTIFX_UINT32_T  time_idx =0, fx_idx=0;
 
 
-Fs = params[0];
+Fs = fixed_params[0];
 for (time_idx=0;time_idx<frame_len;time_idx++)
 {
     fx_idx = 0;
@@ -53,10 +53,10 @@ return MULTIFX_DEFAULT_RET;
 
 MULTIFX_API_RET test_tone (STD_FX_LIB_CALL)
 {
+	MULTIFX_FLOATING_T f_samp           = fixed_params[0];
     MULTIFX_FLOATING_T f_synth          = params[0];
-    MULTIFX_FLOATING_T f_samp           = params[1];
-    MULTIFX_FLOATING_T phase_offset     = params[2];
-    MULTIFX_FLOATING_T amp              = params[3];
+    MULTIFX_FLOATING_T phase_offset     = params[1];
+    MULTIFX_FLOATING_T amp              = params[2];
     MULTIFX_FLOATING_T bias             = 0;
     MULTIFX_API_RET    ret              = 0;
     MULTIFX_FLOATING_T lsb              = pow(2,-15); //2 fix

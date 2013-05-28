@@ -43,8 +43,8 @@
 	<File name="MULTIFX_oss_utils.h" open="0" top="0" tabpos="14">
 		<Cursor position="60" topLine="0" />
 	</File>
-	<File name="MULTIFX_threads.c" open="1" top="0" tabpos="5">
-		<Cursor position="2081" topLine="27" />
+	<File name="MULTIFX_threads.c" open="1" top="1" tabpos="5">
+		<Cursor position="2081" topLine="30" />
 	</File>
 	<File name="MULTIFX_threads.h" open="0" top="0" tabpos="8">
 		<Cursor position="101" topLine="0" />
@@ -52,8 +52,8 @@
 	<File name="MULTIFX_typedef.h" open="1" top="0" tabpos="3">
 		<Cursor position="2025" topLine="0" />
 	</File>
-	<File name="main.c" open="1" top="1" tabpos="2">
-		<Cursor position="13469" topLine="257" />
+	<File name="main.c" open="1" top="0" tabpos="2">
+		<Cursor position="13469" topLine="287" />
 	</File>
 	<File name="ncurses_UI_class.c" open="1" top="0" tabpos="1">
 		<Cursor position="4524" topLine="167" />

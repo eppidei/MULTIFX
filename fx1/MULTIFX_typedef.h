@@ -25,24 +25,32 @@ typedef float MULTIFX_FLOATING_T;
 typedef MULTIFX_INT32_T MULTIFX_API_RET ;
 
 
+
+
+typedef  struct MULTIFX_MENU_NODE_S MULTIFX_MENU_NODE_T;
+typedef  struct MULTIFX_MENU_HEAD_S MULTIFX_MENU_HEAD_T ;
+enum menu_item_t {root,sub_menu,static_parameter,oscillator_parameter};
+
 /**************FX CLASS*******************/
 typedef struct FX_S FX_T;
 
+
+
 typedef MULTIFX_API_RET (* MULTIFX_P_OSC_FUNC_T)(MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_UINT32_T,MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T,MULTIFX_FLOATING_T*);
 
-typedef MULTIFX_API_RET (*MULTIFX_P_PROC_FUNC_T)(MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*,MULTIFX_UINT32_T);
+typedef MULTIFX_API_RET (*MULTIFX_P_PROC_FUNC_T)(MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*, MULTIFX_FLOATING_T*,MULTIFX_FLOATING_T*,MULTIFX_UINT32_T);
 
 typedef struct OSCILLATOR_S OSCILLATOR_T ;
 
+/*****OSCILLATORS******/
+
+enum osc_param_order_t {osc_sample_rate_idx = 0, osc_freq_idx = 1,osc_offset_idx=2,osc_bias_idx=3,osc_amp_idx=4};
+
 /**************UI CLASS*******************/
-enum SM_UI_states { INIT, ATTACH_LEFT, ATTACH_RIGHT,INIZ_SEQUENCE,PROCESS,CHOOSE_CHANNEL,CHANGE_PARAMS,LEV1,LEV2};
+enum SM_UI_states { INIT, ATTACH_LEFT, ATTACH_RIGHT,INIZ_SEQUENCE,PROCESS,CHOOSE_CHANNEL,BROWSE_PARAMS,MODIFY_PARAM};
 
 typedef  struct ncurses_UI_S ncurses_UI_T;
 
-/**************FX Manager ********************/
-//typedef struct FX_Manager_S FX_Manager_T;
-//enum commands {NOTHING2DO,FX_INIT,FX_RELEASE,FX_CONFIGURE};
-/*****************************************/
 
 
 

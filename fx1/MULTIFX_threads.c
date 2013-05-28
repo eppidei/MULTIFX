@@ -30,7 +30,7 @@ void *ProcMainLoop(void *threadarg)
     MULTIFX_UINT16_T flag           = targuments->enable_mainloop;
     FX_T*             left_chain    = targuments->p_left;
     FX_T*             right_chain    = targuments->p_right;
-    FILE**            debu_file     =targuments->p_debug;
+    FILE**            debu_file       =targuments->p_debug;
     MULTIFX_UINT16_T*    up_flag_L    =targuments->update_flag_L;
     MULTIFX_UINT16_T*    up_flag_R    =targuments->update_flag_R;
 
@@ -70,8 +70,12 @@ if(*up_flag_L==1)
  {
  ret=FX_static_param_update(right_chain);
  STRAIGHT_tRETURN(ret);
- *up_flag_R=1;
+ *up_flag_R=0;
  }
+
+#ifdef DEBUG
+ FX_printf(right_chain,debu_file);
+#endif
 
 
 

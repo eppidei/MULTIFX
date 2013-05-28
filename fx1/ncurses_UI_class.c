@@ -1,7 +1,9 @@
 #include <ncurses_UI_class.h>
+#include <MULTIFX_MENU_class.h>
 #include <ncurses.h>
 #include <stdlib.h>
 #include <string.h>
+#include <MULTIFX_errors.h>
 
 
 
@@ -39,11 +41,18 @@ int UI_ncurses_off()
     return 0;
 }
 
-ncurses_UI_T* UI_init (int n_items, char * items, int w_h, int w_w, int w_x, int w_y,int m_x, int m_y, int p_x, int p_y, char * title, int t_x, int t_y)
+ncurses_UI_T* UI_init (MULTIFX_MENU_NODE_T * menu_parent, int w_h, int w_w, int w_x, int w_y,int m_x, int m_y, int p_x, int p_y, char * title, int t_x, int t_y)
 {
-    ncurses_UI_T* pthis = calloc(1,sizeof(ncurses_UI_T));
+
+    MULTIFX_API_RET ret = 0;
+    MULTIFX_UINT32_T n_items,max_items;
+    static MULTIFX_CHAR_T name[MAX_CHAR_LEN];
+    MULTIFX_UINT16_T name_id = 0, prm_type = 0;
   //  char *tmp=NULL;
     unsigned int i  = 0;
+    int curses_ret = 0;
+
+    ncurses_UI_T* pthis = calloc(1,sizeof(ncurses_UI_T));
 
     if (pthis!=NULL)
     {
@@ -62,20 +71,65 @@ ncurses_UI_T* UI_init (int n_items, char * items, int w_h, int w_w, int w_x, int
 
         pthis->menu_win = newwin( pthis->w_height, pthis->w_width, pthis->w_x, pthis->w_y);
 
-          pthis->n_items = n_items;
-        pthis->menu_items = calloc(n_items*MAX_CHAR_LEN,sizeof(char));
+       if (pthis->menu_win!=NULL)
+       {
 
-        //tmp = pthis->menu_items;
-        for (i=0;i<n_items;i++)
-        {
-            strncpy(&(pthis->menu_items[i*MAX_CHAR_LEN]),&items[i*MAX_CHAR_LEN],MAX_CHAR_LEN);
-        }
+			MULTIFX_MENU_get_max_children(menu_parent,&max_items);
 
-        keypad(pthis->menu_win, TRUE);
+			 ret =MULTIFX_MENU_get_n_children(menu_parent,&n_items);
 
-        pthis->menu_title= calloc(MAX_CHAR_LEN,sizeof(char));
+			  pthis->n_items = n_items;
 
-        strncpy(pthis->menu_title,title,MAX_CHAR_LEN);
+
+			pthis->menu_items = calloc(n_items*MAX_CHAR_LEN,sizeof(char));
+
+			if (pthis->menu_items!=NULL)
+			{
+
+
+
+
+				for (i=0;i<max_items;i++)
+				{
+					 ret = MULTIFX_MENU_get_child_name(menu_parent,i,name);
+					if (ret==0)
+					{
+						strncpy(&(pthis->menu_items[i*MAX_CHAR_LEN]),name,MAX_CHAR_LEN);
+					}
+				}
+
+				curses_ret=keypad(pthis->menu_win, TRUE);
+
+				if (curses_ret!=0)
+				{
+					fprintf(stderr,"\n keypad error %d\n",curses_ret);
+					return NULL;
+				}
+
+				pthis->menu_title= calloc(MAX_CHAR_LEN,sizeof(char));
+
+					if (pthis->menu_title!= NULL)
+					{
+						strncpy(pthis->menu_title,title,MAX_CHAR_LEN);
+					}
+					else
+					{
+						fprintf(stderr,"\n menu title allocation error\n");
+						return NULL;
+					}
+		   }
+
+			else
+		   {
+			fprintf(stderr,"\n menu items allocation error\n");
+			return NULL;
+		   }
+       }
+       else
+       {
+    	   fprintf(stderr,"\n new win allocation error\n");
+    	   return NULL;
+       }
     }
 
     return pthis;
@@ -83,10 +137,13 @@ ncurses_UI_T* UI_init (int n_items, char * items, int w_h, int w_w, int w_x, int
 
 int UI_release(ncurses_UI_T* p_ui)
 {
-    free(p_ui->menu_items);
-     free(p_ui->menu_title);
-    delwin(p_ui->menu_win);
-    free(p_ui);
+    CHECKNFREE(p_ui->menu_items);
+    CHECKNFREE(p_ui->menu_title);
+    if (p_ui->menu_win!=NULL)
+    {
+    	delwin(p_ui->menu_win);
+    }
+    CHECKNFREE(p_ui);
 
     return 0;
 }
@@ -182,7 +239,7 @@ int UI_param_change(ncurses_UI_T* p_ui, float *param, float delta, int *up_level
 {
     int c;
     int new_printy = p_ui->print_state_y ;
-    enum { plus = 112, minus = 109, out = 117};
+    enum { plus = 112, minus = 109, out = 117};//, sub_menu=115};//p,m,u,s
 
 
     mvwprintw(p_ui->menu_win,new_printy,1,p_ui->menu_title,*param);
@@ -207,6 +264,8 @@ int UI_param_change(ncurses_UI_T* p_ui, float *param, float delta, int *up_level
                         return 0;
             case out :  *up_level = 1;
                         return 0;
+//            case sub_menu : *up_level = 2;
+//							return 0;
             default  : new_printy =  p_ui->print_state_y +1;
                         mvwprintw(p_ui->menu_win,new_printy,1,"PRESS %c or %c", plus, minus);
                         wrefresh(p_ui->menu_win);
