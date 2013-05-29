@@ -404,7 +404,7 @@ MULTIFX_API_RET FX_process(FX_T* p_FX)
         {
              p_tmp->tv_parameter = &(p_FX->time_varied_params_buff[i*p_FX->len_float_buff]);//indirizza il parametro all'interno buffer parametri tempo varianti
 
-             ret = (p_tmp->var_param_func)(p_tmp->osc_params[0],p_tmp->osc_params[1],p_FX->len_float_buff,p_tmp->tv_parameter,p_tmp->osc_params[2], p_tmp->osc_params[4],p_tmp->osc_params[3],p_tmp->oscillator_state);
+             ret = (p_tmp->var_param_func)(p_tmp->osc_params[osc_sample_rate_idx],p_tmp->osc_params[osc_freq_idx],p_FX->len_float_buff,p_tmp->tv_parameter,p_tmp->osc_params[osc_offset_idx], p_tmp->osc_params[osc_amp_idx],p_tmp->osc_params[osc_bias_idx],p_tmp->oscillator_state);
         }
 
     }
@@ -465,19 +465,36 @@ MULTIFX_API_RET FX_set_new_param(FX_T* p_FX,MULTIFX_FLOATING_T new_prm,MULTIFX_U
      return MULTIFX_DEFAULT_RET;
 }
 
+MULTIFX_API_RET FX_OSC_set_new_param(FX_T* p_FX,MULTIFX_FLOATING_T new_prm,MULTIFX_UINT32_T osc_idx,MULTIFX_UINT32_T fx_idx)
+{
+
+	memcpy((p_FX ->array_osc[osc_idx])->new_osc_params,(p_FX ->array_osc[osc_idx])->osc_params,(p_FX ->array_osc[osc_idx])->n_osc_params*sizeof(MULTIFX_FLOATING_T));
+
+	(p_FX ->array_osc[osc_idx])->new_osc_params[fx_idx] = new_prm;
+
+     return MULTIFX_DEFAULT_RET;
+}
+
 MULTIFX_API_RET FX_printf(FX_T* p_FX, FILE** pid)
 {
 	MULTIFX_UINT32_T i = 0;
 
-	fprintf(*pid,"stat param address %x\n",p_FX->static_params);
+//	fprintf(*pid,"statparam address %x\n",p_FX->static_params);
+//
+//
+//	for (i=0;i<p_FX->n_static_params;i++)
+//	{
+//		fprintf(*pid,"param %d %f\n",i,p_FX->static_params[i]);
+//	}
 
 
-	for (i=0;i<p_FX->n_static_params;i++)
+
+	for (i=0;i<p_FX->n_time_varying_params;i++)
 	{
-		fprintf(*pid,"param %d %f\n",i,p_FX->static_params[i]);
+		fprintf(*pid,"oscparam%u address %x\n",i,(p_FX->array_osc[i])->osc_params);
+		fprintf(*pid,"sample rate %f freq %f offset %f bias %f amp  %f\n",(p_FX->array_osc[i])->osc_params[osc_sample_rate_idx],(p_FX->array_osc[i])->osc_params[osc_freq_idx],
+				(p_FX->array_osc[i])->osc_params[osc_offset_idx],(p_FX->array_osc[i])->osc_params[osc_bias_idx],(p_FX->array_osc[i])->osc_params[osc_amp_idx]);
 	}
-
-	return MULTIFX_DEFAULT_RET;
 }
 MULTIFX_API_RET FX_attach_menu(FX_T* p_FX,MULTIFX_MENU_NODE_T *node,MULTIFX_MENU_HEAD_T *head)
 {

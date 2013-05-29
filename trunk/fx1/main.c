@@ -139,7 +139,7 @@ MULTIFX_P_PROC_FUNC_T p_sinsrc_fx_func=test_tone;
   MULTIFX_MENU_NODE_T* tmp_node1=NULL, *tmp_node2=NULL;
  static char param_name[MAX_CHAR_LEN];
  MULTIFX_FLOATING_T *p_stat_prm=NULL,*p_tv_params=NULL;
- MULTIFX_UINT32_T tmp_idx=0, tmp_depth=0, tmp_depth2=0;
+ MULTIFX_UINT32_T tmp_idx=0, tmp_idx2=0, tmp_depth=0, tmp_depth2=0;
 
 /*****************************************/
 
@@ -196,45 +196,45 @@ MULTIFX_P_PROC_FUNC_T p_sinsrc_fx_func=test_tone;
         {
             case INIT :         UI_ncurses_on();
 
-								ret = MULTIFX_MENU_init(&set_effect_root,&set_effect_head,max_n_effects,set_effect_name,root);
+								ret = MULTIFX_MENU_init(&set_effect_root,&set_effect_head,max_n_effects,set_effect_name,root,0);
 								STRAIGHT_RETURN(ret);
-								ret = MULTIFX_MENU_create_child_idx (&moog,set_effect_root, set_effect_head,0,moog_name,sub_menu);
+								ret = MULTIFX_MENU_create_child_idx (&moog,set_effect_root, set_effect_head,0,moog_name,sub_menu,0);
 								STRAIGHT_RETURN(ret);
-								ret = MULTIFX_MENU_create_child_idx (&sin_test,set_effect_root, set_effect_head,1,sin_src_name,sub_menu);
+								ret = MULTIFX_MENU_create_child_idx (&sin_test,set_effect_root, set_effect_head,1,sin_src_name,sub_menu,0);
 								STRAIGHT_RETURN(ret);
 								/****************sin_test*********************/
-								ret = MULTIFX_MENU_create_child_idx (&freq,sin_test, set_effect_head,0,freq_name,static_parameter);
+								ret = MULTIFX_MENU_create_child_idx (&freq,sin_test, set_effect_head,0,freq_name,static_parameter,tt_freq_idx);
 								STRAIGHT_RETURN(ret);
-								ret = MULTIFX_MENU_create_child_idx (&ampl,sin_test, set_effect_head,1,amp_name,static_parameter);
+								ret = MULTIFX_MENU_create_child_idx (&ampl,sin_test, set_effect_head,2,amp_name,static_parameter,tt_amp_idx);
 								STRAIGHT_RETURN(ret);
-								ret = MULTIFX_MENU_create_child_idx (&offset,sin_test, set_effect_head,2,offset_name,static_parameter);
+								ret = MULTIFX_MENU_create_child_idx (&offset,sin_test, set_effect_head,1,offset_name,static_parameter,tt_offset_idx);
 								STRAIGHT_RETURN(ret);
 								/*******************moog***********************/
-								ret = MULTIFX_MENU_create_child_idx (&static_params,moog, set_effect_head,0,static_params_name,sub_menu);
+								ret = MULTIFX_MENU_create_child_idx (&static_params,moog, set_effect_head,0,static_params_name,sub_menu,0);
 								STRAIGHT_RETURN(ret);
-								ret = MULTIFX_MENU_create_child_idx (&tv_params,moog, set_effect_head,1,tv_params_name,sub_menu);
-								STRAIGHT_RETURN(ret);
-
-								ret = MULTIFX_MENU_create_child_idx (&freq_taglio,tv_params, set_effect_head,0,freq_taglio_name,sub_menu);
-								STRAIGHT_RETURN(ret);
-								ret = MULTIFX_MENU_create_child_idx (&kappa,tv_params, set_effect_head,1,kappa_name,sub_menu);
+								ret = MULTIFX_MENU_create_child_idx (&tv_params,moog, set_effect_head,1,tv_params_name,sub_menu,0);
 								STRAIGHT_RETURN(ret);
 
-								ret = MULTIFX_MENU_create_child_idx (&osc_freq,freq_taglio, set_effect_head,0,osc_freq_name,oscillator_parameter);
+								ret = MULTIFX_MENU_create_child_idx (&freq_taglio,tv_params, set_effect_head,0,freq_taglio_name,sub_menu,moog_freq_tag_idx);
 								STRAIGHT_RETURN(ret);
-								ret = MULTIFX_MENU_create_child_idx (&osc_freq,kappa, set_effect_head,0,osc_freq_name,oscillator_parameter);
+								ret = MULTIFX_MENU_create_child_idx (&kappa,tv_params, set_effect_head,1,kappa_name,sub_menu,moog_k_idx);
+								STRAIGHT_RETURN(ret);
+
+								ret = MULTIFX_MENU_create_child_idx (&osc_freq,freq_taglio, set_effect_head,0,osc_freq_name,oscillator_parameter,osc_freq_idx);
+								STRAIGHT_RETURN(ret);
+								ret = MULTIFX_MENU_create_child_idx (&osc_freq,kappa, set_effect_head,0,osc_freq_name,oscillator_parameter,osc_freq_idx);
 								STRAIGHT_RETURN(ret);
 //								ret = MULTIFX_MENU_create_child_idx (&osc_amp,tv_params, set_effect_head,1,osc_amp_name,oscillator_parameter);
 //								STRAIGHT_RETURN(ret);
 
 								/**************************L-R Channels***********************************/
-								 ret = MULTIFX_MENU_init(&choose_channel_root,&choose_channel_head,max_n_effects,choose_channel_name,root);
+								 ret = MULTIFX_MENU_init(&choose_channel_root,&choose_channel_head,max_n_effects,choose_channel_name,root,0);
 								STRAIGHT_RETURN(ret);
-								ret = MULTIFX_MENU_create_child_idx (&ch_l,choose_channel_root, choose_channel_head,0,"LEFT",sub_menu);
+								ret = MULTIFX_MENU_create_child_idx (&ch_l,choose_channel_root, choose_channel_head,0,"LEFT",sub_menu,0);
 								STRAIGHT_RETURN(ret);
-								ret = MULTIFX_MENU_create_child_idx (&ch_r,choose_channel_root, choose_channel_head,1,"RIGHT",sub_menu);
+								ret = MULTIFX_MENU_create_child_idx (&ch_r,choose_channel_root, choose_channel_head,1,"RIGHT",sub_menu,0);
 								STRAIGHT_RETURN(ret);
-								ret = MULTIFX_MENU_create_child_idx (&stop,choose_channel_root, choose_channel_head,2,"STOP",sub_menu);
+								ret = MULTIFX_MENU_create_child_idx (&stop,choose_channel_root, choose_channel_head,2,"STOP",sub_menu,0);
 								STRAIGHT_RETURN(ret);
 								/***********************************************************************************/
                                 uiL = UI_init (set_effect_root,height,width,  0, 0,4,5,0,0,"ATTACH FX LEFT CHANNEL",8,2);
@@ -319,7 +319,8 @@ MULTIFX_P_PROC_FUNC_T p_sinsrc_fx_func=test_tone;
                                 break;
 
             case PROCESS   : sem_init(&sem,0,1);
-                                tret = pthread_create(&threads, NULL, ProcMainLoop, (void *)&thread_arg);
+                             //
+            	tret = pthread_create(&threads, NULL, ProcMainLoop, (void *)&thread_arg);
 
 
                                  ui = UI_init (choose_channel_root,height,width,  0, 0,4,5,0,0,"CHOOSE CHANNEL FOR PARAMETER CHANGING",8,2);
@@ -453,8 +454,17 @@ MULTIFX_P_PROC_FUNC_T p_sinsrc_fx_func=test_tone;
 //#ifdef DEBUG
 //										fprintf(dbg_file,"%f\n",prm);
 //#endif
-									   FX_set_new_param(thread_arg.p_left,prm,tmp_idx);
-									   flag_update_left=1;
+										if (menu_type==static_parameter)
+										{
+											FX_set_new_param(thread_arg.p_left,prm,tmp_idx);
+										}
+										if (menu_type==oscillator_parameter)
+										{
+											ret = MULTIFX_MENU_get_node_fx_idx(tmp_node1,&tmp_idx);
+											ret = MULTIFX_MENU_get_parent_fx_idx(tmp_node1,&tmp_idx2);
+											FX_OSC_set_new_param(thread_arg.p_left,prm,tmp_idx2,tmp_idx);
+										}
+											flag_update_left=1;
 //#ifdef DEBUG
 //										fprintf(dbg_file,"%u\n",flag_update_left);
 //#endif
@@ -465,7 +475,16 @@ MULTIFX_P_PROC_FUNC_T p_sinsrc_fx_func=test_tone;
 #ifdef DEBUG
 										fprintf(dbg_file,"%f\n",prm);
 #endif
-									   FX_set_new_param(thread_arg.p_right,prm,tmp_idx);
+										if (menu_type==static_parameter)
+										{
+											FX_set_new_param(thread_arg.p_right,prm,tmp_idx);
+										}
+										if (menu_type==oscillator_parameter)
+										{
+											ret = MULTIFX_MENU_get_node_fx_idx(tmp_node1,&tmp_idx);
+											ret = MULTIFX_MENU_get_parent_fx_idx(tmp_node1,&tmp_idx2);
+											FX_OSC_set_new_param(thread_arg.p_right,prm,tmp_idx2,tmp_idx);
+										}
 									   flag_update_right=1;
 #ifdef DEBUG
 										fprintf(dbg_file,"%u\n",flag_update_right);
@@ -485,11 +504,12 @@ MULTIFX_P_PROC_FUNC_T p_sinsrc_fx_func=test_tone;
 
 
 end :
+
+UI_ncurses_off();
 UI_release(ui);
 //UI_release(uiL);
 //UI_release(uiR);
 //UI_release(uiL3);
-UI_ncurses_off();
 fclose(dbg_file);
 tret =pthread_join(threads, (void **)&texit);
 if (tret==0)

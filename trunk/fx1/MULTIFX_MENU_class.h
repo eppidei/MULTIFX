@@ -3,9 +3,9 @@
 
 #include <MULTIFX_typedef.h>
 
-//static MULTIFX_API_RET MULTIFX_MENU_node_init(MULTIFX_MENU_NODE_T **node,MULTIFX_UINT32_T max_children,MULTIFX_CHAR_T  *node_name,enum menu_item_t node_typ);
+//static MULTIFX_API_RET MULTIFX_MENU_node_init(MULTIFX_MENU_NODE_T **node,MULTIFX_UINT32_T max_children,MULTIFX_CHAR_T  *node_name,enum menu_item_t node_typ,MULTIFX_UINT32_T fx_idx);
 
- MULTIFX_API_RET MULTIFX_MENU_init(MULTIFX_MENU_NODE_T **root,MULTIFX_MENU_HEAD_T **head,MULTIFX_UINT32_T max_children,MULTIFX_CHAR_T  *root_name,enum menu_item_t node_typ);
+ MULTIFX_API_RET MULTIFX_MENU_init(MULTIFX_MENU_NODE_T **root,MULTIFX_MENU_HEAD_T **head,MULTIFX_UINT32_T max_children,MULTIFX_CHAR_T  *root_name,enum menu_item_t node_typ,MULTIFX_UINT32_T fx_idx);
 
  MULTIFX_API_RET MULTIFX_MENU_del_all_children_recursive(MULTIFX_MENU_NODE_T *node,MULTIFX_MENU_HEAD_T *head);
 
@@ -26,7 +26,7 @@
  MULTIFX_API_RET MULTIFX_MENU_get_child_type(MULTIFX_MENU_NODE_T *parent,MULTIFX_UINT32_T idx,enum menu_item_t *type);
 
  MULTIFX_API_RET MULTIFX_MENU_create_child_idx (MULTIFX_MENU_NODE_T **child, MULTIFX_MENU_NODE_T *parent, MULTIFX_MENU_HEAD_T *head,
-		 MULTIFX_UINT32_T idx,MULTIFX_CHAR_T  *child_name,enum menu_item_t node_typ);
+		 MULTIFX_UINT32_T idx,MULTIFX_CHAR_T  *child_name,enum menu_item_t node_typ,MULTIFX_UINT32_T fx_idx);
 
  MULTIFX_API_RET MULTIFX_MENU_plug_root_into_branch(MULTIFX_MENU_NODE_T *old_root,MULTIFX_MENU_HEAD_T *old_head, MULTIFX_MENU_NODE_T *branch, MULTIFX_MENU_HEAD_T* head);
 
@@ -48,10 +48,14 @@
 
  MULTIFX_API_RET MULTIFX_MENU_get_node_name(MULTIFX_MENU_NODE_T *node,MULTIFX_CHAR_T * name);
 
- MULTIFX_API_RET MULTIFX_MENU_get_node_idx(MULTIFX_MENU_NODE_T *node,MULTIFX_UINT32_T *child_idx);
+ MULTIFX_API_RET MULTIFX_MENU_get_node_idx(MULTIFX_MENU_NODE_T *node,MULTIFX_UINT32_T *idx);
 
- MULTIFX_API_RET MULTIFX_MENU_get_parent_idx(MULTIFX_MENU_NODE_T *node,MULTIFX_UINT32_T *child_idx);
+ MULTIFX_API_RET MULTIFX_MENU_get_parent_idx(MULTIFX_MENU_NODE_T *node,MULTIFX_UINT32_T *idx);
 
  MULTIFX_API_RET MULTIFX_MENU_get_node_depth(MULTIFX_MENU_NODE_T *node,MULTIFX_UINT32_T * depth);
+
+ MULTIFX_API_RET MULTIFX_MENU_get_node_fx_idx(MULTIFX_MENU_NODE_T *node,MULTIFX_UINT32_T * fx_idx);
+
+ MULTIFX_API_RET MULTIFX_MENU_get_parent_fx_idx(MULTIFX_MENU_NODE_T *node,MULTIFX_UINT32_T * fx_idx);
 
 #endif

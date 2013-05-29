@@ -16,6 +16,7 @@ struct MULTIFX_MENU_NODE_S
 {
 	MULTIFX_UINT32_T 	node_id;
 	MULTIFX_CHAR_T  	*node_name;
+	MULTIFX_UINT32_T    fx_idx;
 	enum menu_item_t 		node_type;
 	MULTIFX_UINT32_T 	node_depth;
 	MULTIFX_MENU_NODE_T	* p_parent;
@@ -25,7 +26,7 @@ struct MULTIFX_MENU_NODE_S
 
 };
 
-static MULTIFX_API_RET MULTIFX_MENU_node_init(MULTIFX_MENU_NODE_T **node,MULTIFX_UINT32_T max_children,MULTIFX_CHAR_T  *node_name,enum menu_item_t node_typ)
+static MULTIFX_API_RET MULTIFX_MENU_node_init(MULTIFX_MENU_NODE_T **node,MULTIFX_UINT32_T max_children,MULTIFX_CHAR_T  *node_name,enum menu_item_t node_typ,MULTIFX_UINT32_T fx_idx)
 {
 
 	*node=calloc(1,sizeof(MULTIFX_MENU_NODE_T));
@@ -35,6 +36,7 @@ static MULTIFX_API_RET MULTIFX_MENU_node_init(MULTIFX_MENU_NODE_T **node,MULTIFX
 			(*node)->node_depth=1;
 			(*node)->p_parent=NULL;
 			(*node)->n_children=0;
+			(*node)->fx_idx=fx_idx;
 			(*node)->max_children=max_children;
 			(*node)->node_name = calloc(MAX_CHAR_LEN,sizeof(MULTIFX_CHAR_T));
 			if ((*node)->node_name!=NULL)
@@ -71,7 +73,7 @@ static MULTIFX_API_RET MULTIFX_MENU_node_init(MULTIFX_MENU_NODE_T **node,MULTIFX
 
 }
 
- MULTIFX_API_RET MULTIFX_MENU_init(MULTIFX_MENU_NODE_T **root,MULTIFX_MENU_HEAD_T **head,MULTIFX_UINT32_T max_children,MULTIFX_CHAR_T  *root_name,enum menu_item_t node_typ)
+ MULTIFX_API_RET MULTIFX_MENU_init(MULTIFX_MENU_NODE_T **root,MULTIFX_MENU_HEAD_T **head,MULTIFX_UINT32_T max_children,MULTIFX_CHAR_T  *root_name,enum menu_item_t node_typ,MULTIFX_UINT32_T fx_idx)
 {
     *head=calloc(1,sizeof(MULTIFX_MENU_HEAD_T));
     //MULTIFX_UINT32_T tmp_len;
@@ -79,7 +81,7 @@ static MULTIFX_API_RET MULTIFX_MENU_node_init(MULTIFX_MENU_NODE_T **node,MULTIFX
 
     if(*head!=NULL)
     {
-        ret = MULTIFX_MENU_node_init(root,max_children,root_name,node_typ);
+        ret = MULTIFX_MENU_node_init(root,max_children,root_name,node_typ,fx_idx);
         if (ret<0)
         {
         	fprintf(stderr,"\n node init error\n");
@@ -276,7 +278,7 @@ static MULTIFX_API_RET MULTIFX_MENU_node_init(MULTIFX_MENU_NODE_T **node,MULTIFX
   }
 
  MULTIFX_API_RET MULTIFX_MENU_create_child_idx (MULTIFX_MENU_NODE_T **child, MULTIFX_MENU_NODE_T *parent, MULTIFX_MENU_HEAD_T *head,
-		 MULTIFX_UINT32_T idx,MULTIFX_CHAR_T  *child_name,enum menu_item_t node_typ)
+		 MULTIFX_UINT32_T idx,MULTIFX_CHAR_T  *child_name,enum menu_item_t node_typ,MULTIFX_UINT32_T fx_idx)
 {
 	MULTIFX_UINT32_T i=0;
 
@@ -305,6 +307,7 @@ static MULTIFX_API_RET MULTIFX_MENU_node_init(MULTIFX_MENU_NODE_T **node,MULTIFX
          (*child)->node_id = head->id_assignment_counter+1;
          (*child)->node_depth = parent->node_depth +1;
          (*child)->p_parent = parent;
+         (*child)->fx_idx = fx_idx;
          (*child)->max_children = parent->max_children;
          (*child)->node_type = node_typ;
          (*child)->node_name = calloc(MAX_CHAR_LEN,sizeof(MULTIFX_CHAR_T));
@@ -601,7 +604,7 @@ static MULTIFX_API_RET MULTIFX_MENU_node_init(MULTIFX_MENU_NODE_T **node,MULTIFX
 
   }
 
- MULTIFX_API_RET MULTIFX_MENU_get_node_idx(MULTIFX_MENU_NODE_T *node,MULTIFX_UINT32_T *child_idx)
+ MULTIFX_API_RET MULTIFX_MENU_get_node_idx(MULTIFX_MENU_NODE_T *node,MULTIFX_UINT32_T *idx)
  {
 	 MULTIFX_UINT32_T i = 0;
 	 MULTIFX_MENU_NODE_T *parent = node->p_parent;
@@ -610,7 +613,7 @@ static MULTIFX_API_RET MULTIFX_MENU_node_init(MULTIFX_MENU_NODE_T **node,MULTIFX
 	 {
 		 if ( node==parent->p_p_children[i] )
 		 {
-			 *child_idx=i;
+			 *idx=i;
 			 break;
 		 }
 		 if (i==(parent->max_children)-1)
@@ -625,7 +628,7 @@ static MULTIFX_API_RET MULTIFX_MENU_node_init(MULTIFX_MENU_NODE_T **node,MULTIFX
 
  }
 
- MULTIFX_API_RET MULTIFX_MENU_get_parent_idx(MULTIFX_MENU_NODE_T *node,MULTIFX_UINT32_T *child_idx)
+ MULTIFX_API_RET MULTIFX_MENU_get_parent_idx(MULTIFX_MENU_NODE_T *node,MULTIFX_UINT32_T *idx)
  {
 	 MULTIFX_MENU_NODE_T *parent = NULL;
 	 //MULTIFX_INT32_T ret = 0;
@@ -636,7 +639,7 @@ static MULTIFX_API_RET MULTIFX_MENU_node_init(MULTIFX_MENU_NODE_T **node,MULTIFX
 		 {
 			 parent = node->p_parent;
 
-			 MULTIFX_MENU_get_node_idx(parent,child_idx);
+			 MULTIFX_MENU_get_node_idx(parent,idx);
 
 
 		 }
@@ -662,3 +665,49 @@ static MULTIFX_API_RET MULTIFX_MENU_node_init(MULTIFX_MENU_NODE_T **node,MULTIFX
  	return MULTIFX_DEFAULT_RET;
 
    }
+
+
+ MULTIFX_API_RET MULTIFX_MENU_get_node_fx_idx(MULTIFX_MENU_NODE_T *node,MULTIFX_UINT32_T * fx_idx)
+    {
+
+  	 if (node!=NULL)
+  	 {
+  		 *fx_idx = node->fx_idx;
+  	 }
+  	 else
+  	 {
+  		 fprintf(stderr,"\n MULTIFX_MENU_NODE_INIT_ERROR \n");
+  		 return MULTIFX_MENU_NODE_INIT_ERROR;
+  	 }
+
+  	return MULTIFX_DEFAULT_RET;
+
+    }
+
+ MULTIFX_API_RET MULTIFX_MENU_get_parent_fx_idx(MULTIFX_MENU_NODE_T *node,MULTIFX_UINT32_T * fx_idx)
+     {
+
+		 MULTIFX_MENU_NODE_T *parent=NULL;
+
+   	 if (node!=NULL)
+   	 {
+   		 if (node->p_parent!=NULL)
+   		 {
+   			 parent = node->p_parent;
+   			 *fx_idx = parent->fx_idx;
+   		 }
+   		 else
+   		 {
+   			fprintf(stderr,"\n MULTIFX_MENU_PARENT_UNKNOWN_ERROR \n");
+   			return MULTIFX_MENU_PARENT_UNKNOWN_ERROR;
+   		 }
+   	 }
+   	 else
+   	 {
+   		 fprintf(stderr,"\n MULTIFX_MENU_NODE_INIT_ERROR \n");
+   		 return MULTIFX_MENU_NODE_INIT_ERROR;
+   	 }
+
+   	return MULTIFX_DEFAULT_RET;
+
+     }
