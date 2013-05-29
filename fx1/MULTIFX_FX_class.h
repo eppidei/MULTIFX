@@ -44,6 +44,8 @@ MULTIFX_API_RET FX_static_param_update(FX_T* p_FX);
 
 MULTIFX_API_RET FX_set_new_param(FX_T* p_FX,MULTIFX_FLOATING_T new_prm,MULTIFX_UINT32_T fx_idx);
 
+MULTIFX_API_RET FX_OSC_set_new_param(FX_T* p_FX,MULTIFX_FLOATING_T new_prm,MULTIFX_UINT32_T osc_idx,MULTIFX_UINT32_T fx_idx);
+
 MULTIFX_API_RET FX_printf(FX_T* p_FX, FILE** pid);
 
 MULTIFX_API_RET FX_attach_menu(FX_T* p_FX,MULTIFX_MENU_NODE_T *node,MULTIFX_MENU_HEAD_T *head);

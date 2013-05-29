@@ -19,9 +19,9 @@ MULTIFX_UINT32_T  time_idx =0, fx_idx=0;
 Fs = fixed_params[0];
 for (time_idx=0;time_idx<frame_len;time_idx++)
 {
-    fx_idx = 0;
+    fx_idx = moog_freq_tag_idx;
     Fc     = time_var_params[time_idx+fx_idx*frame_len];
-    fx_idx = 1;
+    fx_idx = moog_k_idx;
     kk     = time_var_params[time_idx+fx_idx*frame_len];
 
     Wc          = 2*PI_G*Fc;
@@ -54,9 +54,9 @@ return MULTIFX_DEFAULT_RET;
 MULTIFX_API_RET test_tone (STD_FX_LIB_CALL)
 {
 	MULTIFX_FLOATING_T f_samp           = fixed_params[0];
-    MULTIFX_FLOATING_T f_synth          = params[0];
-    MULTIFX_FLOATING_T phase_offset     = params[1];
-    MULTIFX_FLOATING_T amp              = params[2];
+    MULTIFX_FLOATING_T f_synth          = params[tt_freq_idx];
+    MULTIFX_FLOATING_T phase_offset     = params[tt_offset_idx];
+    MULTIFX_FLOATING_T amp              = params[tt_amp_idx];
     MULTIFX_FLOATING_T bias             = 0;
     MULTIFX_API_RET    ret              = 0;
     MULTIFX_FLOATING_T lsb              = pow(2,-15); //2 fix

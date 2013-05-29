@@ -62,9 +62,9 @@ if(*up_flag_L==1)
 	STRAIGHT_tRETURN(ret);
 	*up_flag_L=0;
 }
-#ifdef DEBUG
- FX_printf(left_chain,debu_file);
-#endif
+//#ifdef DEBUG
+ //FX_printf(left_chain,debu_file);
+//#endif
 
  if(*up_flag_R==1)
  {

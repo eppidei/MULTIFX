@@ -51,8 +51,13 @@ enum SM_UI_states { INIT, ATTACH_LEFT, ATTACH_RIGHT,INIZ_SEQUENCE,PROCESS,CHOOSE
 
 typedef  struct ncurses_UI_S ncurses_UI_T;
 
+/****** TEST TONE*********/
 
+enum test_tone_static_order_t {tt_freq_idx = 0, tt_offset_idx = 1, tt_amp_idx = 2};
 
+/******* MOOG ***********/
+
+enum moog_tv_order_t {moog_freq_tag_idx = 0, moog_k_idx = 1};
 
 typedef struct MULTIFX_targs_S MULTIFX_targs_T;
 

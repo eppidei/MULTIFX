@@ -1,1 +1,1 @@
-tty /dev/pts/3
+tty /dev/pts/4
